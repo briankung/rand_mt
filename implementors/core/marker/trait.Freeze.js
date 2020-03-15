@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["rand_mt"] = [{"text":"impl Freeze for <a class=\"struct\" href=\"rand_mt/struct.MT19937.html\" title=\"struct rand_mt::MT19937\">MT19937</a>","synthetic":true,"types":["rand_mt::mt19937::MT19937"]},{"text":"impl Freeze for <a class=\"struct\" href=\"rand_mt/struct.MT19937_64.html\" title=\"struct rand_mt::MT19937_64\">MT19937_64</a>","synthetic":true,"types":["rand_mt::mt19937_64::MT19937_64"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
