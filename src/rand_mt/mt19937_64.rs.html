@@ -410,6 +410,48 @@
 <span id="410">410</span>
 <span id="411">411</span>
 <span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// src/mt19937_64.rs</span>
 <span class="comment">//</span>
@@ -550,21 +592,18 @@
     <span class="doccomment">/// ```</span>
     <span class="kw">fn</span> <span class="ident">fill_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dest</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes_written</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">loop</span> {
-            <span class="kw">if</span> <span class="ident">bytes_written</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">dest</span>.<span class="ident">len</span>() {
-                <span class="kw">break</span>;
-            }
+        <span class="lifetime">&#39;write</span>: <span class="kw">loop</span> {
             <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_u64</span>().<span class="ident">to_le_bytes</span>();
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">slice</span>) <span class="op">=</span> <span class="ident">dest</span>.<span class="ident">get_mut</span>(<span class="ident">bytes_written</span>..<span class="ident">bytes_written</span> <span class="op">+</span> <span class="number">8</span>) {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">slice</span>) <span class="op">=</span> <span class="ident">dest</span>.<span class="ident">get_mut</span>(<span class="ident">bytes_written</span>..<span class="ident">bytes_written</span> <span class="op">+</span> <span class="ident">bytes</span>.<span class="ident">len</span>()) {
                 <span class="ident">slice</span>.<span class="ident">copy_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>[..]);
-                <span class="ident">bytes_written</span> <span class="op">+</span><span class="op">=</span> <span class="number">8</span>;
+                <span class="ident">bytes_written</span> <span class="op">+</span><span class="op">=</span> <span class="ident">bytes</span>.<span class="ident">len</span>();
             } <span class="kw">else</span> {
                 <span class="kw">for</span> <span class="ident">byte</span> <span class="kw">in</span> <span class="ident">bytes</span>.<span class="ident">iter</span>().<span class="ident">copied</span>() {
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">cell</span>) <span class="op">=</span> <span class="ident">dest</span>.<span class="ident">get_mut</span>(<span class="ident">bytes_written</span>) {
                         <span class="kw-2">*</span><span class="ident">cell</span> <span class="op">=</span> <span class="ident">byte</span>;
                         <span class="ident">bytes_written</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
                     } <span class="kw">else</span> {
-                        <span class="kw">break</span>;
+                        <span class="kw">break</span> <span class="lifetime">&#39;write</span>;
                     }
                 }
             }
@@ -603,16 +642,58 @@
 }
 
 <span class="kw">impl</span> <span class="ident">MT19937_64</span> {
+    <span class="doccomment">/// Default seed used by [`MT19937_64::new_unseeded`].</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DEFAULT_SEED</span>: <span class="ident">u64</span> <span class="op">=</span> <span class="number">5489_u64</span>;
+
     <span class="doccomment">/// Generate an `MT19937` with zeroed state.</span>
     <span class="kw">fn</span> <span class="ident">uninitialized</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">idx</span>: <span class="number">0</span>,
-            <span class="ident">state</span>: <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">Wrapping</span>(<span class="number">0</span>); <span class="ident">NN</span>].<span class="ident">into_boxed_slice</span>(),
+            <span class="ident">state</span>: <span class="ident">Box</span>::<span class="ident">new</span>([<span class="ident">Wrapping</span>(<span class="number">0</span>); <span class="ident">NN</span>]),
         }
     }
 
-    <span class="doccomment">/// Create a new Mersenne Twister random number generator using</span>
-    <span class="doccomment">/// the default fixed seed.</span>
+    <span class="doccomment">/// Create a new Mersenne Twister random number generator using the given</span>
+    <span class="doccomment">/// seed.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ## Constructing with a `u64` seed</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// # use rand_core::SeedableRng;</span>
+    <span class="doccomment">/// # use rand_mt::MT19937_64;</span>
+    <span class="doccomment">/// let seed = 123_456_789_u64;</span>
+    <span class="doccomment">/// let mt1 = MT19937_64::new(seed);</span>
+    <span class="doccomment">/// let mt2 = MT19937_64::from_seed(seed.to_le_bytes());</span>
+    <span class="doccomment">/// assert_eq!(mt1, mt2);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ## Constructing with default seed</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// # use rand_mt::MT19937_64;</span>
+    <span class="doccomment">/// let mt1 = MT19937_64::new(MT19937_64::DEFAULT_SEED);</span>
+    <span class="doccomment">/// let mt2 = MT19937_64::new_unseeded();</span>
+    <span class="doccomment">/// assert_eq!(mt1, mt2);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="attribute">#[<span class="ident">must_use</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">seed</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">from_seed</span>(<span class="ident">seed</span>.<span class="ident">to_le_bytes</span>())
+    }
+
+    <span class="doccomment">/// Create a new Mersenne Twister random number generator using the given</span>
+    <span class="doccomment">/// key.</span>
+    <span class="attribute">#[<span class="ident">must_use</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_from_slice</span>(<span class="ident">key</span>: <span class="kw-2">&amp;</span>[<span class="ident">u64</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mt</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">uninitialized</span>();
+        <span class="ident">mt</span>.<span class="ident">reseed_from_slice</span>(<span class="ident">key</span>);
+        <span class="ident">mt</span>
+    }
+
+    <span class="doccomment">/// Create a new Mersenne Twister random number generator using the default</span>
+    <span class="doccomment">/// fixed seed.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Examples</span>
     <span class="doccomment">///</span>
@@ -628,7 +709,7 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="attribute">#[<span class="ident">must_use</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_unseeded</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">from_seed</span>(<span class="number">5489_u64</span>.<span class="ident">to_le_bytes</span>())
+        <span class="self">Self</span>::<span class="ident">from_seed</span>(<span class="self">Self</span>::<span class="ident">DEFAULT_SEED</span>.<span class="ident">to_le_bytes</span>())
     }
 
     <span class="kw">fn</span> <span class="ident">fill_next_state</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
@@ -703,11 +784,11 @@
                 <span class="op">+</span> <span class="ident">Wrapping</span>(<span class="ident">key</span>[<span class="ident">j</span>])
                 <span class="op">+</span> <span class="ident">Wrapping</span>(<span class="ident">j</span> <span class="kw">as</span> <span class="ident">u64</span>);
             <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            <span class="ident">j</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
             <span class="kw">if</span> <span class="ident">i</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">NN</span> {
                 <span class="self">self</span>.<span class="ident">state</span>[<span class="number">0</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">NN</span> <span class="op">-</span> <span class="number">1</span>];
                 <span class="ident">i</span> <span class="op">=</span> <span class="number">1</span>;
             }
-            <span class="ident">j</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
             <span class="kw">if</span> <span class="ident">j</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">key</span>.<span class="ident">len</span>() {
                 <span class="ident">j</span> <span class="op">=</span> <span class="number">0</span>;
             }
@@ -757,6 +838,9 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">MT19937_64</span> {
+    <span class="doccomment">/// Return a new `MT19937_64` with the default seed.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Equivalent to calling [`MT19937_64::new_unseeded`].</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MT19937_64</span> {
         <span class="ident">MT19937_64</span>::<span class="ident">new_unseeded</span>()

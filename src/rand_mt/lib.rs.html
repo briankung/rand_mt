@@ -150,8 +150,8 @@
 <span class="doccomment">//! # use rand_mt::MersenneTwister;</span>
 <span class="doccomment">//! # use rand_core::{RngCore, SeedableRng};</span>
 <span class="doccomment">//! # fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
-<span class="doccomment">//! // Get a seed somehow.</span>
-<span class="doccomment">//! let seed: [u8; 8] = 0x1234_567_89ab_cdef_u64.to_ne_bytes();</span>
+<span class="doccomment">//! // Get a seed somehow, expected to be a little endian encoded `u64`.</span>
+<span class="doccomment">//! let seed: [u8; 8] = 0x1234_567_89ab_cdef_u64.to_le_bytes();</span>
 <span class="doccomment">//! // Create the default RNG.</span>
 <span class="doccomment">//! let mut rng = MersenneTwister::from_seed(seed);</span>
 <span class="doccomment">//! // start grabbing randomness from rng...</span>

@@ -21,8 +21,8 @@ by using the <code>MersenneTwister</code> type definition. Either flavor accepts
 <code>u64</code> seed.</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered">
-<span class="comment">// Get a seed somehow.</span>
-<span class="kw">let</span> <span class="ident">seed</span>: [<span class="ident">u8</span>; <span class="number">8</span>] <span class="op">=</span> <span class="number">0x1234_567_89ab_cdef_u64</span>.<span class="ident">to_ne_bytes</span>();
+<span class="comment">// Get a seed somehow, expected to be a little endian encoded `u64`.</span>
+<span class="kw">let</span> <span class="ident">seed</span>: [<span class="ident">u8</span>; <span class="number">8</span>] <span class="op">=</span> <span class="number">0x1234_567_89ab_cdef_u64</span>.<span class="ident">to_le_bytes</span>();
 <span class="comment">// Create the default RNG.</span>
 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rng</span> <span class="op">=</span> <span class="ident">MersenneTwister</span>::<span class="ident">from_seed</span>(<span class="ident">seed</span>);
 <span class="comment">// start grabbing randomness from rng...</span>
