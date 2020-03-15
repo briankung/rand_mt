@@ -452,6 +452,48 @@
 <span id="452">452</span>
 <span id="453">453</span>
 <span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// src/mt19937_64.rs</span>
 <span class="comment">//</span>
@@ -464,8 +506,10 @@
 <span class="comment">// option. All files in the project carrying such notice may not be copied,</span>
 <span class="comment">// modified, or distributed except according to those terms.</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">num</span>::<span class="ident">Wrapping</span>;
+<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">cmp</span>;
+<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">fmt</span>;
+<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">hash</span>;
+<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">num</span>::<span class="ident">Wrapping</span>;
 
 <span class="kw">use</span> <span class="ident">rand_core</span>::{<span class="ident">RngCore</span>, <span class="ident">SeedableRng</span>};
 
@@ -483,21 +527,61 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// `MT19937_64` requires approximately 2.5KB of internal state.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// `MT19937_64` stores its state on the heap to ease embedding a Mersenne</span>
-<span class="doccomment">/// Twister in another struct. `MT19937_64` is also the same size as</span>
-<span class="doccomment">/// [`MT19937`](crate::MT19937).</span>
+<span class="doccomment">/// You may wish to store an `MT19937_64` on the heap in a `Box` to make it</span>
+<span class="doccomment">/// easier to embed in another struct.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// `MT19937_64` is also the same size as [`MT19937`](crate::MT19937).</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// # use rand_mt::{MT19937, MT19937_64};</span>
 <span class="doccomment">/// # use std::mem;</span>
-<span class="doccomment">/// assert_eq!(3 * mem::size_of::&lt;usize&gt;(), mem::size_of::&lt;MT19937_64&gt;());</span>
+<span class="doccomment">/// assert_eq!(2504, mem::size_of::&lt;MT19937_64&gt;());</span>
 <span class="doccomment">/// assert_eq!(mem::size_of::&lt;MT19937&gt;(), mem::size_of::&lt;MT19937_64&gt;());</span>
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_camel_case_types</span>)]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MT19937_64</span> {
     <span class="ident">idx</span>: <span class="ident">usize</span>,
-    <span class="ident">state</span>: <span class="ident">Box</span><span class="op">&lt;</span>[<span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>]<span class="op">&gt;</span>, <span class="comment">// Length `NN`</span>
+    <span class="ident">state</span>: [<span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>; <span class="ident">NN</span>],
+}
+
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">MT19937_64</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;MT19937_64&quot;</span>)
+            .<span class="ident">field</span>(<span class="string">&quot;idx&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">idx</span>)
+            .<span class="ident">field</span>(<span class="string">&quot;state&quot;</span>, <span class="kw-2">&amp;</span><span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>[..])
+            .<span class="ident">finish</span>()
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">hash</span>::<span class="ident">Hash</span> <span class="kw">for</span> <span class="ident">MT19937_64</span> {
+    <span class="kw">fn</span> <span class="ident">hash</span><span class="op">&lt;</span><span class="ident">H</span>: <span class="ident">hash</span>::<span class="ident">Hasher</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">H</span>) {
+        <span class="self">self</span>.<span class="ident">idx</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
+        <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">cmp</span>::<span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">MT19937_64</span> {
+    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">state</span>[..] <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">state</span>[..] <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">idx</span> <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">idx</span>
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">cmp</span>::<span class="ident">Eq</span> <span class="kw">for</span> <span class="ident">MT19937_64</span> {}
+
+<span class="kw">impl</span> <span class="ident">cmp</span>::<span class="ident">PartialOrd</span> <span class="kw">for</span> <span class="ident">MT19937_64</span> {
+    <span class="kw">fn</span> <span class="ident">partial_cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">cmp</span>::<span class="ident">Ordering</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">cmp</span>(<span class="ident">other</span>))
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">cmp</span>::<span class="ident">Ord</span> <span class="kw">for</span> <span class="ident">MT19937_64</span> {
+    <span class="kw">fn</span> <span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">cmp</span>::<span class="ident">Ordering</span> {
+        <span class="kw">match</span> (<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>[..]).<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">state</span>[..]) {
+            <span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Equal</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">idx</span>.<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">idx</span>),
+            <span class="ident">ordering</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ordering</span>,
+        }
+    }
 }
 
 <span class="kw">impl</span> <span class="ident">SeedableRng</span> <span class="kw">for</span> <span class="ident">MT19937_64</span> {
@@ -649,7 +733,7 @@
     <span class="kw">fn</span> <span class="ident">uninitialized</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">idx</span>: <span class="number">0</span>,
-            <span class="ident">state</span>: <span class="ident">Box</span>::<span class="ident">new</span>([<span class="ident">Wrapping</span>(<span class="number">0</span>); <span class="ident">NN</span>]),
+            <span class="ident">state</span>: [<span class="ident">Wrapping</span>(<span class="number">0</span>); <span class="ident">NN</span>],
         }
     }
 

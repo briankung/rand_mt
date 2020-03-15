@@ -98,7 +98,6 @@
 <span id="98"> 98</span>
 <span id="99"> 99</span>
 <span id="100">100</span>
-<span id="101">101</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// src/lib.rs</span>
 <span class="comment">//</span>
@@ -117,6 +116,7 @@
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">missing_debug_implementations</span>)]</span>
 <span class="attribute">#![<span class="ident">warn</span>(<span class="ident">rust_2018_idioms</span>)]</span>
 <span class="attribute">#![<span class="ident">forbid</span>(<span class="ident">unsafe_code</span>)]</span>
+<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">doctest</span>, <span class="ident">test</span>)), <span class="ident">no_std</span>)]</span>
 
 <span class="doccomment">//! Mersenne Twister random number generators.</span>
 <span class="doccomment">//!</span>
@@ -177,8 +177,6 @@
 <span class="doccomment">//! despite their similar names. They produce different output streams from the</span>
 <span class="doccomment">//! same seed. You will need to pick a specific flavor of the two algorithms if</span>
 <span class="doccomment">//! portable reproducibility is important to you.</span>
-
-<span class="attribute">#![<span class="ident">deny</span>(<span class="ident">missing_docs</span>)]</span>
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">mt19937</span>::<span class="ident">MT19937</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">mt19937_64</span>::<span class="ident">MT19937_64</span>;
