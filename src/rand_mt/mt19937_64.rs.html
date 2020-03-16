@@ -493,9 +493,6 @@
 <span id="493">493</span>
 <span id="494">494</span>
 <span id="495">495</span>
-<span id="496">496</span>
-<span id="497">497</span>
-<span id="498">498</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// src/mt19937_64.rs</span>
 <span class="comment">//</span>
@@ -549,10 +546,7 @@
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">MT19937_64</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
-        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;MT19937_64&quot;</span>)
-            .<span class="ident">field</span>(<span class="string">&quot;idx&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">idx</span>)
-            .<span class="ident">field</span>(<span class="string">&quot;state&quot;</span>, <span class="kw-2">&amp;</span><span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>[..])
-            .<span class="ident">finish</span>()
+        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;MT19937_64&quot;</span>).<span class="ident">finish</span>()
     }
 }
 
