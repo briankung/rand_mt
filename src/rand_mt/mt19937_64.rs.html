@@ -540,7 +540,6 @@
 <span id="540">540</span>
 <span id="541">541</span>
 <span id="542">542</span>
-<span id="543">543</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// src/mt19937_64.rs</span>
 <span class="comment">//</span>
@@ -621,7 +620,7 @@
 
 <span class="kw">impl</span> <span class="ident">cmp</span>::<span class="ident">Ord</span> <span class="kw">for</span> <span class="ident">MT19937_64</span> {
     <span class="kw">fn</span> <span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">cmp</span>::<span class="ident">Ordering</span> {
-        <span class="kw">match</span> (<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>[..]).<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">state</span>[..]) {
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">state</span>[..].<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">state</span>[..]) {
             <span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Equal</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">idx</span>.<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">idx</span>),
             <span class="ident">ordering</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ordering</span>,
         }
@@ -834,15 +833,15 @@
     <span class="doccomment">/// # use rand_core::SeedableRng;</span>
     <span class="doccomment">/// # use rand_mt::MT19937_64;</span>
     <span class="doccomment">/// // Default MT seed</span>
-    <span class="doccomment">/// let seed = 5489_u64.to_le_bytes();</span>
-    <span class="doccomment">/// let mt = MT19937_64::from_seed(seed);</span>
+    <span class="doccomment">/// let seed = 5489_u64;</span>
+    <span class="doccomment">/// let mt = MT19937_64::new(seed);</span>
     <span class="doccomment">/// let unseeded = MT19937_64::new_unseeded();</span>
     <span class="doccomment">/// assert_eq!(mt, unseeded);</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="attribute">#[<span class="ident">must_use</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_unseeded</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">from_seed</span>(<span class="self">Self</span>::<span class="ident">DEFAULT_SEED</span>.<span class="ident">to_le_bytes</span>())
+        <span class="self">Self</span>::<span class="ident">new</span>(<span class="self">Self</span>::<span class="ident">DEFAULT_SEED</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">fill_next_state</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
@@ -911,8 +910,7 @@
     <span class="doccomment">/// # use rand_core::{RngCore, SeedableRng};</span>
     <span class="doccomment">/// # use rand_mt::MT19937_64;</span>
     <span class="doccomment">/// // Default MT seed</span>
-    <span class="doccomment">/// let seed = 5489_u64.to_le_bytes();</span>
-    <span class="doccomment">/// let mut mt = MT19937_64::from_seed(seed);</span>
+    <span class="doccomment">/// let mut mt = MT19937_64::new_unseeded();</span>
     <span class="doccomment">/// let first = mt.next_u64();</span>
     <span class="doccomment">/// mt.fill_bytes(&amp;mut [0; 512]);</span>
     <span class="doccomment">/// // Default MT seed</span>
@@ -935,7 +933,7 @@
         <span class="self">self</span>.<span class="ident">reseed_from_iter</span>(<span class="ident">key</span>.<span class="ident">iter</span>().<span class="ident">copied</span>())
     }
 
-    <span class="doccomment">/// Reseed a Mersenne Twister from am iterator of `u32`s.</span>
+    <span class="doccomment">/// Reseed a Mersenne Twister from am iterator of `u64`s.</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">cast_possible_truncation</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reseed_from_iter</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">key</span>: <span class="ident">I</span>)
     <span class="kw">where</span>
