@@ -510,6 +510,7 @@
 <span id="510">510</span>
 <span id="511">511</span>
 <span id="512">512</span>
+<span id="513">513</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// src/mt19937.rs</span>
 <span class="comment">//</span>
@@ -613,9 +614,7 @@
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">from_seed</span>(<span class="ident">seed</span>: <span class="self">Self</span>::<span class="ident">Seed</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mt</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">uninitialized</span>();
-        <span class="ident">mt</span>.<span class="ident">reseed</span>(<span class="ident">u32</span>::<span class="ident">from_le_bytes</span>(<span class="ident">seed</span>));
-        <span class="ident">mt</span>
+        <span class="self">Self</span>::<span class="ident">new</span>(<span class="ident">u32</span>::<span class="ident">from_le_bytes</span>(<span class="ident">seed</span>))
     }
 }
 
@@ -737,14 +736,6 @@
     <span class="doccomment">/// Default seed used by [`MT19937::new_unseeded`].</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DEFAULT_SEED</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">5489_u32</span>;
 
-    <span class="doccomment">/// Generate an `MT19937` with zeroed state.</span>
-    <span class="kw">fn</span> <span class="ident">uninitialized</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span> {
-            <span class="ident">idx</span>: <span class="number">0</span>,
-            <span class="ident">state</span>: [<span class="ident">Wrapping</span>(<span class="number">0</span>); <span class="ident">N</span>],
-        }
-    }
-
     <span class="doccomment">/// Create a new Mersenne Twister random number generator using the given</span>
     <span class="doccomment">/// seed.</span>
     <span class="doccomment">///</span>
@@ -772,7 +763,12 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="attribute">#[<span class="ident">must_use</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">seed</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">from_seed</span>(<span class="ident">seed</span>.<span class="ident">to_le_bytes</span>())
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mt</span> <span class="op">=</span> <span class="self">Self</span> {
+            <span class="ident">idx</span>: <span class="number">0</span>,
+            <span class="ident">state</span>: [<span class="ident">Wrapping</span>(<span class="number">0</span>); <span class="ident">N</span>],
+        };
+        <span class="ident">mt</span>.<span class="ident">reseed</span>(<span class="ident">seed</span>);
+        <span class="ident">mt</span>
     }
 
     <span class="doccomment">/// Create a new Mersenne Twister random number generator using the given</span>
@@ -791,7 +787,10 @@
         <span class="ident">I</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">u32</span><span class="op">&gt;</span>,
         <span class="ident">I</span>::<span class="ident">IntoIter</span>: <span class="ident">Clone</span>,
     {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mt</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">uninitialized</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mt</span> <span class="op">=</span> <span class="self">Self</span> {
+            <span class="ident">idx</span>: <span class="number">0</span>,
+            <span class="ident">state</span>: [<span class="ident">Wrapping</span>(<span class="number">0</span>); <span class="ident">N</span>],
+        };
         <span class="ident">mt</span>.<span class="ident">reseed_from_iter</span>(<span class="ident">key</span>);
         <span class="ident">mt</span>
     }
@@ -842,7 +841,10 @@
         <span class="kw">if</span> <span class="ident">samples</span>.<span class="ident">len</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">N</span> {
             <span class="kw">return</span> <span class="prelude-val">None</span>;
         }
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mt</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">uninitialized</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mt</span> <span class="op">=</span> <span class="self">Self</span> {
+            <span class="ident">idx</span>: <span class="number">0</span>,
+            <span class="ident">state</span>: [<span class="ident">Wrapping</span>(<span class="number">0</span>); <span class="ident">N</span>],
+        };
         <span class="kw">for</span> (<span class="ident">in_</span>, <span class="ident">out</span>) <span class="kw">in</span> <span class="ident">Iterator</span>::<span class="ident">zip</span>(<span class="ident">samples</span>.<span class="ident">iter</span>().<span class="ident">copied</span>(), <span class="ident">mt</span>.<span class="ident">state</span>.<span class="ident">iter_mut</span>()) {
             <span class="kw-2">*</span><span class="ident">out</span> <span class="op">=</span> <span class="ident">Wrapping</span>(<span class="ident">untemper</span>(<span class="ident">in_</span>));
         }
