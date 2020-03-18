@@ -600,6 +600,9 @@
 <span id="600">600</span>
 <span id="601">601</span>
 <span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// src/mt19937_64.rs</span>
 <span class="comment">//</span>
@@ -819,13 +822,16 @@
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// # use rand_core::RngCore;</span>
     <span class="doccomment">/// # use rand_mt::Mt19937GenRand64;</span>
+    <span class="doccomment">/// # fn main() -&gt; Result&lt;(), rand_core::Error&gt; {</span>
     <span class="doccomment">/// let mut mt = Mt19937GenRand64::new_unseeded();</span>
     <span class="doccomment">/// let mut buf = [0; 32];</span>
-    <span class="doccomment">/// mt.try_fill_bytes(&amp;mut buf).unwrap();</span>
+    <span class="doccomment">/// mt.try_fill_bytes(&amp;mut buf)?;</span>
     <span class="doccomment">/// assert_ne!([0; 32], buf);</span>
     <span class="doccomment">/// let mut buf = [0; 31];</span>
-    <span class="doccomment">/// mt.try_fill_bytes(&amp;mut buf).unwrap();</span>
+    <span class="doccomment">/// mt.try_fill_bytes(&amp;mut buf)?;</span>
     <span class="doccomment">/// assert_ne!([0; 31], buf);</span>
+    <span class="doccomment">/// # Ok(())</span>
+    <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">try_fill_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dest</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">rand_core</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
