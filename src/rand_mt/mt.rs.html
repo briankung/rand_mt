@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/mt19937.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mt19937.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../rand_mt/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/mt.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mt.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../rand_mt/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -539,6 +539,12 @@
 <span id="539">539</span>
 <span id="540">540</span>
 <span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// src/mt19937.rs</span>
 <span class="comment">//</span>
@@ -568,36 +574,40 @@
 <span class="doccomment">/// The 32-bit flavor of the Mersenne Twister pseudorandom number</span>
 <span class="doccomment">/// generator.</span>
 <span class="doccomment">///</span>
+<span class="doccomment">/// The official name of this RNG is `MT19937`. It natively outputs `u32`.</span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// # Size</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// `MT19937` requires approximately 2.5KB of internal state.</span>
+<span class="doccomment">/// `Mt19937GenRand32` requires approximately 2.5KB of internal state.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// You may wish to store an `MT19937` on the heap in a `Box` to make it</span>
-<span class="doccomment">/// easier to embed in another struct.</span>
+<span class="doccomment">/// You may wish to store an `Mt19937GenRand32` on the heap in a `Box` to make</span>
+<span class="doccomment">/// it easier to embed in another struct.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// `MT19937` is also the same size as [`MT19937_64`](crate::MT19937_64).</span>
+<span class="doccomment">/// `Mt19937GenRand32` is also the same size as</span>
+<span class="doccomment">/// [`Mt19937GenRand64`](crate::Mt19937GenRand64).</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// # use core::mem;</span>
-<span class="doccomment">/// # use rand_mt::{MT19937, MT19937_64};</span>
-<span class="doccomment">/// assert_eq!(2504, mem::size_of::&lt;MT19937&gt;());</span>
-<span class="doccomment">/// assert_eq!(mem::size_of::&lt;MT19937_64&gt;(), mem::size_of::&lt;MT19937&gt;());</span>
+<span class="doccomment">/// # use rand_mt::{Mt19937GenRand32, Mt19937GenRand64};</span>
+<span class="doccomment">/// assert_eq!(2504, mem::size_of::&lt;Mt19937GenRand32&gt;());</span>
+<span class="doccomment">/// assert_eq!(mem::size_of::&lt;Mt19937GenRand64&gt;(), mem::size_of::&lt;Mt19937GenRand32&gt;());</span>
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MT19937</span> {
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">module_name_repetitions</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Mt19937GenRand32</span> {
     <span class="ident">idx</span>: <span class="ident">usize</span>,
     <span class="ident">state</span>: [<span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>; <span class="ident">N</span>],
 }
 
-<span class="kw">impl</span> <span class="ident">cmp</span>::<span class="ident">Eq</span> <span class="kw">for</span> <span class="ident">MT19937</span> {}
+<span class="kw">impl</span> <span class="ident">cmp</span>::<span class="ident">Eq</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand32</span> {}
 
-<span class="kw">impl</span> <span class="ident">cmp</span>::<span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">MT19937</span> {
+<span class="kw">impl</span> <span class="ident">cmp</span>::<span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand32</span> {
     <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">state</span>[..] <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">state</span>[..] <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">idx</span> <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">idx</span>
     }
 }
 
-<span class="kw">impl</span> <span class="ident">cmp</span>::<span class="ident">Ord</span> <span class="kw">for</span> <span class="ident">MT19937</span> {
+<span class="kw">impl</span> <span class="ident">cmp</span>::<span class="ident">Ord</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand32</span> {
     <span class="kw">fn</span> <span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">cmp</span>::<span class="ident">Ordering</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">state</span>[..].<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">state</span>[..]) {
             <span class="ident">cmp</span>::<span class="ident">Ordering</span>::<span class="ident">Equal</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">idx</span>.<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">idx</span>),
@@ -606,36 +616,36 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">cmp</span>::<span class="ident">PartialOrd</span> <span class="kw">for</span> <span class="ident">MT19937</span> {
+<span class="kw">impl</span> <span class="ident">cmp</span>::<span class="ident">PartialOrd</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand32</span> {
     <span class="kw">fn</span> <span class="ident">partial_cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">cmp</span>::<span class="ident">Ordering</span><span class="op">&gt;</span> {
         <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">cmp</span>(<span class="ident">other</span>))
     }
 }
 
-<span class="kw">impl</span> <span class="ident">hash</span>::<span class="ident">Hash</span> <span class="kw">for</span> <span class="ident">MT19937</span> {
+<span class="kw">impl</span> <span class="ident">hash</span>::<span class="ident">Hash</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand32</span> {
     <span class="kw">fn</span> <span class="ident">hash</span><span class="op">&lt;</span><span class="ident">H</span>: <span class="ident">hash</span>::<span class="ident">Hasher</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">H</span>) {
         <span class="self">self</span>.<span class="ident">idx</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
         <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
     }
 }
 
-<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">MT19937</span> {
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand32</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
-        <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;MT19937 {{}}&quot;</span>)
+        <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Mt19937GenRand32 {{}}&quot;</span>)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">MT19937</span> {
-    <span class="doccomment">/// Return a new `MT19937` with the default seed.</span>
+<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand32</span> {
+    <span class="doccomment">/// Return a new `Mt19937GenRand32` with the default seed.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Equivalent to calling [`MT19937::new_unseeded`].</span>
+    <span class="doccomment">/// Equivalent to calling [`Mt19937GenRand32::new_unseeded`].</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">new_unseeded</span>()
     }
 }
 
-<span class="kw">impl</span> <span class="ident">SeedableRng</span> <span class="kw">for</span> <span class="ident">MT19937</span> {
+<span class="kw">impl</span> <span class="ident">SeedableRng</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand32</span> {
     <span class="kw">type</span> <span class="ident">Seed</span> <span class="op">=</span> [<span class="ident">u8</span>; <span class="number">4</span>];
 
     <span class="doccomment">/// Reseed from a little endian encoded `u32`.</span>
@@ -644,10 +654,10 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// # use rand_core::{RngCore, SeedableRng};</span>
-    <span class="doccomment">/// # use rand_mt::MT19937;</span>
+    <span class="doccomment">/// # use rand_mt::Mt19937GenRand32;</span>
     <span class="doccomment">/// // Default MT seed</span>
     <span class="doccomment">/// let seed = 5489_u32.to_le_bytes();</span>
-    <span class="doccomment">/// let mut mt = MT19937::from_seed(seed);</span>
+    <span class="doccomment">/// let mut mt = Mt19937GenRand32::from_seed(seed);</span>
     <span class="doccomment">/// assert_ne!(mt.next_u32(), mt.next_u32());</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -656,7 +666,7 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">RngCore</span> <span class="kw">for</span> <span class="ident">MT19937</span> {
+<span class="kw">impl</span> <span class="ident">RngCore</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand32</span> {
     <span class="doccomment">/// Generate next `u64` output.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This function is implemented by generating two `u32`s from the RNG and</span>
@@ -666,8 +676,8 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// # use rand_core::RngCore;</span>
-    <span class="doccomment">/// # use rand_mt::MT19937;</span>
-    <span class="doccomment">/// let mut mt = MT19937::new_unseeded();</span>
+    <span class="doccomment">/// # use rand_mt::Mt19937GenRand32;</span>
+    <span class="doccomment">/// let mut mt = Mt19937GenRand32::new_unseeded();</span>
     <span class="doccomment">/// assert_ne!(mt.next_u64(), mt.next_u64());</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -686,8 +696,8 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// # use rand_core::RngCore;</span>
-    <span class="doccomment">/// # use rand_mt::MT19937;</span>
-    <span class="doccomment">/// let mut mt = MT19937::new_unseeded();</span>
+    <span class="doccomment">/// # use rand_mt::Mt19937GenRand32;</span>
+    <span class="doccomment">/// let mut mt = Mt19937GenRand32::new_unseeded();</span>
     <span class="doccomment">/// assert_ne!(mt.next_u32(), mt.next_u32());</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -715,8 +725,8 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// # use rand_core::RngCore;</span>
-    <span class="doccomment">/// # use rand_mt::MT19937;</span>
-    <span class="doccomment">/// let mut mt = MT19937::new_unseeded();</span>
+    <span class="doccomment">/// # use rand_mt::Mt19937GenRand32;</span>
+    <span class="doccomment">/// let mut mt = Mt19937GenRand32::new_unseeded();</span>
     <span class="doccomment">/// let mut buf = [0; 32];</span>
     <span class="doccomment">/// mt.fill_bytes(&amp;mut buf);</span>
     <span class="doccomment">/// assert_ne!([0; 32], buf);</span>
@@ -754,8 +764,8 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// # use rand_core::RngCore;</span>
-    <span class="doccomment">/// # use rand_mt::MT19937;</span>
-    <span class="doccomment">/// let mut mt = MT19937::new_unseeded();</span>
+    <span class="doccomment">/// # use rand_mt::Mt19937GenRand32;</span>
+    <span class="doccomment">/// let mut mt = Mt19937GenRand32::new_unseeded();</span>
     <span class="doccomment">/// let mut buf = [0; 32];</span>
     <span class="doccomment">/// mt.try_fill_bytes(&amp;mut buf).unwrap();</span>
     <span class="doccomment">/// assert_ne!([0; 32], buf);</span>
@@ -770,8 +780,8 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">MT19937</span> {
-    <span class="doccomment">/// Default seed used by [`MT19937::new_unseeded`].</span>
+<span class="kw">impl</span> <span class="ident">Mt19937GenRand32</span> {
+    <span class="doccomment">/// Default seed used by [`Mt19937GenRand32::new_unseeded`].</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DEFAULT_SEED</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">5489_u32</span>;
 
     <span class="doccomment">/// Create a new Mersenne Twister random number generator using the given</span>
@@ -783,19 +793,19 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// # use rand_core::SeedableRng;</span>
-    <span class="doccomment">/// # use rand_mt::MT19937;</span>
+    <span class="doccomment">/// # use rand_mt::Mt19937GenRand32;</span>
     <span class="doccomment">/// let seed = 123_456_789_u32;</span>
-    <span class="doccomment">/// let mt1 = MT19937::new(seed);</span>
-    <span class="doccomment">/// let mt2 = MT19937::from_seed(seed.to_le_bytes());</span>
+    <span class="doccomment">/// let mt1 = Mt19937GenRand32::new(seed);</span>
+    <span class="doccomment">/// let mt2 = Mt19937GenRand32::from_seed(seed.to_le_bytes());</span>
     <span class="doccomment">/// assert_eq!(mt1, mt2);</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ## Constructing with default seed</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// # use rand_mt::MT19937;</span>
-    <span class="doccomment">/// let mt1 = MT19937::new(MT19937::DEFAULT_SEED);</span>
-    <span class="doccomment">/// let mt2 = MT19937::new_unseeded();</span>
+    <span class="doccomment">/// # use rand_mt::Mt19937GenRand32;</span>
+    <span class="doccomment">/// let mt1 = Mt19937GenRand32::new(Mt19937GenRand32::DEFAULT_SEED);</span>
+    <span class="doccomment">/// let mt2 = Mt19937GenRand32::new_unseeded();</span>
     <span class="doccomment">/// assert_eq!(mt1, mt2);</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -840,11 +850,11 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// # use rand_core::SeedableRng;</span>
-    <span class="doccomment">/// # use rand_mt::MT19937;</span>
+    <span class="doccomment">/// # use rand_mt::Mt19937GenRand32;</span>
     <span class="doccomment">/// // Default MT seed</span>
     <span class="doccomment">/// let seed = 5489_u32;</span>
-    <span class="doccomment">/// let mt = MT19937::new(seed);</span>
-    <span class="doccomment">/// let unseeded = MT19937::new_unseeded();</span>
+    <span class="doccomment">/// let mt = Mt19937GenRand32::new(seed);</span>
+    <span class="doccomment">/// let unseeded = Mt19937GenRand32::new_unseeded();</span>
     <span class="doccomment">/// assert_eq!(mt, unseeded);</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -870,7 +880,7 @@
     <span class="doccomment">/// Recover the internal state of a Mersenne Twister instance</span>
     <span class="doccomment">/// from 624 consecutive outputs of the algorithm.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// The returned `MT19937` is guaranteed to identically reproduce</span>
+    <span class="doccomment">/// The returned `Mt19937GenRand32` is guaranteed to identically reproduce</span>
     <span class="doccomment">/// subsequent outputs of the RNG that was sampled.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns `None` if `samples` is not exactly 624 elements.</span>
@@ -883,7 +893,7 @@
     <span class="doccomment">/// Recover the internal state of a Mersenne Twister instance</span>
     <span class="doccomment">/// from 624 consecutive outputs of the algorithm.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// The returned `MT19937` is guaranteed to identically reproduce</span>
+    <span class="doccomment">/// The returned `Mt19937GenRand32` is guaranteed to identically reproduce</span>
     <span class="doccomment">/// subsequent outputs of the RNG that was sampled.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns `None` if `samples` is not exactly 624 elements.</span>
@@ -917,9 +927,9 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// # use rand_core::{RngCore, SeedableRng};</span>
-    <span class="doccomment">/// # use rand_mt::MT19937;</span>
+    <span class="doccomment">/// # use rand_mt::Mt19937GenRand32;</span>
     <span class="doccomment">/// // Default MT seed</span>
-    <span class="doccomment">/// let mut mt = MT19937::new_unseeded();</span>
+    <span class="doccomment">/// let mut mt = Mt19937GenRand32::new_unseeded();</span>
     <span class="doccomment">/// let first = mt.next_u32();</span>
     <span class="doccomment">/// mt.fill_bytes(&amp;mut [0; 512]);</span>
     <span class="doccomment">/// // Default MT seed</span>
@@ -1014,13 +1024,13 @@
     <span class="kw">use</span> <span class="ident">quickcheck_macros</span>::<span class="ident">quickcheck</span>;
     <span class="kw">use</span> <span class="ident">rand_core</span>::{<span class="ident">RngCore</span>, <span class="ident">SeedableRng</span>};
 
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">MT19937</span>;
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Mt19937GenRand32</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">vectors</span>::<span class="ident">mt</span> <span class="kw">as</span> <span class="ident">vectors</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">seeded_state_from_u32_seed</span>() {
-        <span class="kw">let</span> <span class="ident">mt</span> <span class="op">=</span> <span class="ident">MT19937</span>::<span class="ident">new</span>(<span class="number">0x1234_5678_u32</span>);
-        <span class="kw">let</span> <span class="ident">mt_from_seed</span> <span class="op">=</span> <span class="ident">MT19937</span>::<span class="ident">from_seed</span>(<span class="number">0x1234_5678_u32</span>.<span class="ident">to_le_bytes</span>());
+        <span class="kw">let</span> <span class="ident">mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand32</span>::<span class="ident">new</span>(<span class="number">0x1234_5678_u32</span>);
+        <span class="kw">let</span> <span class="ident">mt_from_seed</span> <span class="op">=</span> <span class="ident">Mt19937GenRand32</span>::<span class="ident">from_seed</span>(<span class="number">0x1234_5678_u32</span>.<span class="ident">to_le_bytes</span>());
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">mt</span>.<span class="ident">state</span>[..] <span class="op">=</span><span class="op">=</span> <span class="ident">mt_from_seed</span>.<span class="ident">state</span>[..]);
         <span class="kw">for</span> (<span class="kw-2">&amp;</span><span class="ident">Wrapping</span>(<span class="ident">x</span>), <span class="kw-2">&amp;</span><span class="ident">y</span>) <span class="kw">in</span> <span class="ident">mt</span>.<span class="ident">state</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">vectors</span>::<span class="ident">STATE_SEEDED_BY_U32</span>.<span class="ident">iter</span>()) {
             <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">x</span> <span class="op">=</span><span class="op">=</span> <span class="ident">y</span>);
@@ -1029,7 +1039,8 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">seeded_state_from_u32_slice_key</span>() {
-        <span class="kw">let</span> <span class="ident">mt</span> <span class="op">=</span> <span class="ident">MT19937</span>::<span class="ident">new_from_slice</span>(<span class="kw-2">&amp;</span>[<span class="number">0x123_u32</span>, <span class="number">0x234_u32</span>, <span class="number">0x345_u32</span>, <span class="number">0x456_u32</span>][..]);
+        <span class="kw">let</span> <span class="ident">mt</span> <span class="op">=</span>
+            <span class="ident">Mt19937GenRand32</span>::<span class="ident">new_from_slice</span>(<span class="kw-2">&amp;</span>[<span class="number">0x123_u32</span>, <span class="number">0x234_u32</span>, <span class="number">0x345_u32</span>, <span class="number">0x456_u32</span>][..]);
         <span class="kw">for</span> (<span class="kw-2">&amp;</span><span class="ident">Wrapping</span>(<span class="ident">x</span>), <span class="kw-2">&amp;</span><span class="ident">y</span>) <span class="kw">in</span> <span class="ident">mt</span>.<span class="ident">state</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">vectors</span>::<span class="ident">STATE_SEEDED_BY_SLICE</span>.<span class="ident">iter</span>()) {
             <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">x</span> <span class="op">=</span><span class="op">=</span> <span class="ident">y</span>);
         }
@@ -1037,7 +1048,8 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">output_from_u32_slice_key</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mt</span> <span class="op">=</span> <span class="ident">MT19937</span>::<span class="ident">new_from_slice</span>(<span class="kw-2">&amp;</span>[<span class="number">0x123_u32</span>, <span class="number">0x234_u32</span>, <span class="number">0x345_u32</span>, <span class="number">0x456_u32</span>][..]);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mt</span> <span class="op">=</span>
+            <span class="ident">Mt19937GenRand32</span>::<span class="ident">new_from_slice</span>(<span class="kw-2">&amp;</span>[<span class="number">0x123_u32</span>, <span class="number">0x234_u32</span>, <span class="number">0x345_u32</span>, <span class="number">0x456_u32</span>][..]);
         <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="ident">vectors</span>::<span class="ident">TEST_OUTPUT</span>.<span class="ident">iter</span>() {
             <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">mt</span>.<span class="ident">next_u32</span>() <span class="op">=</span><span class="op">=</span> <span class="kw-2">*</span><span class="ident">x</span>);
         }
@@ -1055,7 +1067,7 @@
 
     <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
     <span class="kw">fn</span> <span class="ident">recovery</span>(<span class="ident">seed</span>: <span class="ident">u32</span>, <span class="ident">skip</span>: <span class="ident">u8</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">orig_mt</span> <span class="op">=</span> <span class="ident">MT19937</span>::<span class="ident">new</span>(<span class="ident">seed</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">orig_mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand32</span>::<span class="ident">new</span>(<span class="ident">seed</span>);
         <span class="comment">// skip some samples so the RNG is in an intermediate state</span>
         <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">skip</span> {
             <span class="ident">orig_mt</span>.<span class="ident">next_u32</span>();
@@ -1064,7 +1076,7 @@
         <span class="kw">for</span> <span class="ident">sample</span> <span class="kw">in</span> <span class="ident">samples</span>.<span class="ident">iter_mut</span>() {
             <span class="kw-2">*</span><span class="ident">sample</span> <span class="op">=</span> <span class="ident">orig_mt</span>.<span class="ident">next_u32</span>();
         }
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">recovered_mt</span> <span class="op">=</span> <span class="ident">MT19937</span>::<span class="ident">recover</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..]).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">recovered_mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand32</span>::<span class="ident">recover</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..]).<span class="ident">unwrap</span>();
         <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">624</span> <span class="op">*</span> <span class="number">2</span> {
             <span class="kw">if</span> <span class="ident">orig_mt</span>.<span class="ident">next_u32</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">recovered_mt</span>.<span class="ident">next_u32</span>() {
                 <span class="kw">return</span> <span class="bool-val">false</span>;
@@ -1075,10 +1087,10 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">recover_required_exact_sample_length</span>() {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">None</span>, <span class="ident">MT19937</span>::<span class="ident">recover</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">0</span>][..]));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">None</span>, <span class="ident">MT19937</span>::<span class="ident">recover</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">1</span>][..]));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">None</span>, <span class="ident">MT19937</span>::<span class="ident">recover</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">625</span>][..]));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">None</span>, <span class="ident">MT19937</span>::<span class="ident">recover</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">1000</span>][..]));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">None</span>, <span class="ident">Mt19937GenRand32</span>::<span class="ident">recover</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">0</span>][..]));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">None</span>, <span class="ident">Mt19937GenRand32</span>::<span class="ident">recover</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">1</span>][..]));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">None</span>, <span class="ident">Mt19937GenRand32</span>::<span class="ident">recover</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">625</span>][..]));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">None</span>, <span class="ident">Mt19937GenRand32</span>::<span class="ident">recover</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">1000</span>][..]));
     }
 }
 </pre></div>

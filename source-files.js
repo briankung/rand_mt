@@ -1,3 +1,3 @@
 var N = null;var sourcesIndex = {};
-sourcesIndex["rand_mt"] = {"name":"","files":["lib.rs","mt19937.rs","mt19937_64.rs"]};
+sourcesIndex["rand_mt"] = {"name":"","files":["lib.rs","mt.rs","mt64.rs"]};
 createSourceSidebar();
