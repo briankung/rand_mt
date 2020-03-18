@@ -835,7 +835,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>[<span class="ident">u64</span>; <span class="ident">NN</span>]<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand64</span> {
-    <span class="doccomment">/// Recover the internal state of a Mersenne Twister using the past 624</span>
+    <span class="doccomment">/// Recover the internal state of a Mersenne Twister using the past 312</span>
     <span class="doccomment">/// samples.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This conversion takes a history of samples from a RNG and returns a</span>
@@ -857,7 +857,7 @@
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">RecoverRngError</span>;
 
     <span class="doccomment">/// Attempt to recover the internal state of a Mersenne Twister using the</span>
-    <span class="doccomment">/// past 624 samples.</span>
+    <span class="doccomment">/// past 312 samples.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This conversion takes a history of samples from a RNG and returns a</span>
     <span class="doccomment">/// RNG that will produce identical output to the RNG that supplied the</span>
@@ -867,10 +867,10 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Errors</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// If `key` has less than 624 elements, an error is returned because there</span>
+    <span class="doccomment">/// If `key` has less than 312 elements, an error is returned because there</span>
     <span class="doccomment">/// is not enough data to fully initialize the RNG.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// If `key` has more than 624 elements, an error is returned because the</span>
+    <span class="doccomment">/// If `key` has more than 312 elements, an error is returned because the</span>
     <span class="doccomment">/// recovered RNG will not produce identical output to the RNG that supplied</span>
     <span class="doccomment">/// the samples.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
