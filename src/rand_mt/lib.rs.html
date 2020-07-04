@@ -139,6 +139,10 @@
 <span id="139">139</span>
 <span id="140">140</span>
 <span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// src/lib.rs</span>
 <span class="comment">//</span>
@@ -157,6 +161,9 @@
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">missing_docs</span>, <span class="ident">intra_doc_link_resolution_failure</span>)]</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">missing_debug_implementations</span>)]</span>
 <span class="attribute">#![<span class="ident">warn</span>(<span class="ident">rust_2018_idioms</span>)]</span>
+<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">trivial_casts</span>, <span class="ident">trivial_numeric_casts</span>)]</span>
+<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">unused_qualifications</span>)]</span>
+<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">variant_size_differences</span>)]</span>
 <span class="attribute">#![<span class="ident">forbid</span>(<span class="ident">unsafe_code</span>)]</span>
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>), <span class="ident">no_std</span>)]</span>
 
@@ -189,7 +196,7 @@
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//! # use rand_core::{RngCore, SeedableRng};</span>
 <span class="doccomment">//! # use rand_mt::Mt64;</span>
-<span class="doccomment">//! # fn main() -&gt; Result&lt;(), rand_core::Error&gt; {</span>
+<span class="doccomment">//! # fn example() -&gt; Result&lt;(), rand_core::Error&gt; {</span>
 <span class="doccomment">//! // Create the RNG.</span>
 <span class="doccomment">//! let mut rng = Mt64::new(0x1234_567_89ab_cdef_u64);</span>
 <span class="doccomment">//! // start grabbing randomness from rng...</span>
@@ -197,6 +204,7 @@
 <span class="doccomment">//! rng.try_fill_bytes(&amp;mut buf)?;</span>
 <span class="doccomment">//! # Ok(())</span>
 <span class="doccomment">//! # }</span>
+<span class="doccomment">//! # example().unwrap()</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Or if you want to use the default (fixed) seeds that are specified in the</span>
