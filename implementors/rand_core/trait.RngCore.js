@@ -1,4 +1,4 @@
 (function() {var implementors = {};
 implementors["rand_core"] = [];
-implementors["rand_mt"] = [{"text":"impl <a class=\"trait\" href=\"rand_core/trait.RngCore.html\" title=\"trait rand_core::RngCore\">RngCore</a> for <a class=\"struct\" href=\"rand_mt/struct.Mt19937GenRand32.html\" title=\"struct rand_mt::Mt19937GenRand32\">Mt19937GenRand32</a>","synthetic":false,"types":["rand_mt::mt::Mt19937GenRand32"]},{"text":"impl <a class=\"trait\" href=\"rand_core/trait.RngCore.html\" title=\"trait rand_core::RngCore\">RngCore</a> for <a class=\"struct\" href=\"rand_mt/struct.Mt19937GenRand64.html\" title=\"struct rand_mt::Mt19937GenRand64\">Mt19937GenRand64</a>","synthetic":false,"types":["rand_mt::mt64::Mt19937GenRand64"]}];
+implementors["rand_mt"] = [{"text":"impl RngCore for Mt19937GenRand32","synthetic":false,"types":[]},{"text":"impl RngCore for Mt19937GenRand64","synthetic":false,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
