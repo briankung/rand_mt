@@ -661,22 +661,22 @@
 <span class="kw">impl</span> <span class="ident">Eq</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand64</span> {}
 
 <span class="kw">impl</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand64</span> {
-    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">state</span>[..] <span class="op">==</span> <span class="ident">other</span>.<span class="ident">state</span>[..] <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">idx</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">idx</span>
+    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">state</span>[..] <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">state</span>[..] <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">idx</span> <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">idx</span>
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Ord</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand64</span> {
-    <span class="kw">fn</span> <span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">Ordering</span> {
+    <span class="kw">fn</span> <span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Ordering</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">state</span>[..].<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">state</span>[..]) {
-            <span class="ident">Ordering</span>::<span class="ident">Equal</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">idx</span>.<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">idx</span>),
-            <span class="ident">ordering</span> <span class="op">=&gt;</span> <span class="ident">ordering</span>,
+            <span class="ident">Ordering</span>::<span class="ident">Equal</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">idx</span>.<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">idx</span>),
+            <span class="ident">ordering</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ordering</span>,
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">PartialOrd</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand64</span> {
-    <span class="kw">fn</span> <span class="ident">partial_cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Ordering</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">partial_cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Ordering</span><span class="op">&gt;</span> {
         <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">cmp</span>(<span class="ident">other</span>))
     }
 }
@@ -689,7 +689,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand64</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Mt19937GenRand64 {{}}&quot;</span>)
     }
 }
@@ -699,7 +699,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Equivalent to calling [`Mt19937GenRand64::new_unseeded`].</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">new_unseeded</span>()
     }
 }
@@ -720,7 +720,7 @@
     <span class="doccomment">/// assert_ne!(mt.next_u64(), mt.next_u64());</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">from_seed</span>(<span class="ident">seed</span>: <span class="self">Self</span>::<span class="ident">Seed</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from_seed</span>(<span class="ident">seed</span>: <span class="self">Self</span>::<span class="ident">Seed</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">new</span>(<span class="ident">u64</span>::<span class="ident">from_le_bytes</span>(<span class="ident">seed</span>))
     }
 }
@@ -740,15 +740,15 @@
     <span class="doccomment">/// assert_ne!(mt.next_u64(), mt.next_u64());</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">next_u64</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> {
+    <span class="kw">fn</span> <span class="ident">next_u64</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
         <span class="comment">// Failing this check indicates that, somehow, the structure</span>
         <span class="comment">// was not initialized.</span>
-        <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">idx</span> <span class="op">!=</span> <span class="number">0</span>);
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">idx</span> <span class="op">&gt;=</span> <span class="ident">NN</span> {
+        <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">idx</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>);
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">idx</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">NN</span> {
             <span class="self">self</span>.<span class="ident">fill_next_state</span>();
         }
         <span class="kw">let</span> <span class="ident">Wrapping</span>(<span class="ident">x</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>[<span class="self">self</span>.<span class="ident">idx</span>];
-        <span class="self">self</span>.<span class="ident">idx</span> <span class="op">+=</span> <span class="number">1</span>;
+        <span class="self">self</span>.<span class="ident">idx</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
         <span class="ident">temper</span>(<span class="ident">x</span>)
     }
 
@@ -767,7 +767,7 @@
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">cast_possible_truncation</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">next_u32</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">fn</span> <span class="ident">next_u32</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
         <span class="self">self</span>.<span class="ident">next_u64</span>() <span class="kw">as</span> <span class="ident">u32</span>
     }
 
@@ -794,7 +794,7 @@
     <span class="doccomment">/// ```</span>
     <span class="kw">fn</span> <span class="ident">fill_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dest</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">left</span> <span class="op">=</span> <span class="ident">dest</span>;
-        <span class="kw">while</span> <span class="ident">left</span>.<span class="ident">len</span>() <span class="op">&gt;=</span> <span class="number">8</span> {
+        <span class="kw">while</span> <span class="ident">left</span>.<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="number">8</span> {
             <span class="kw">let</span> (<span class="ident">l</span>, <span class="ident">r</span>) <span class="op">=</span> <span class="ident">left</span>.<span class="ident">split_at_mut</span>(<span class="number">8</span>);
             <span class="ident">left</span> <span class="op">=</span> <span class="ident">r</span>;
             <span class="kw">let</span> <span class="ident">chunk</span>: [<span class="ident">u8</span>; <span class="number">8</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_u64</span>().<span class="ident">to_le_bytes</span>();
@@ -836,7 +836,7 @@
     <span class="doccomment">/// # example().unwrap()</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_fill_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dest</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">rand_core</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">try_fill_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dest</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">rand_core</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">fill_bytes</span>(<span class="ident">dest</span>);
         <span class="prelude-val">Ok</span>(())
     }
@@ -849,7 +849,7 @@
     <span class="doccomment">/// This conversion takes a history of samples from a RNG and returns a</span>
     <span class="doccomment">/// RNG that will produce identical output to the RNG that supplied the</span>
     <span class="doccomment">/// samples.</span>
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">key</span>: [<span class="ident">u64</span>; <span class="ident">NN</span>]) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">key</span>: [<span class="ident">u64</span>; <span class="ident">NN</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mt</span> <span class="op">=</span> <span class="self">Self</span> {
             <span class="ident">idx</span>: <span class="ident">NN</span>,
             <span class="ident">state</span>: [<span class="ident">Wrapping</span>(<span class="number">0</span>); <span class="ident">NN</span>],
@@ -882,7 +882,7 @@
     <span class="doccomment">/// recovered RNG will not produce identical output to the RNG that supplied</span>
     <span class="doccomment">/// the samples.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">key</span>: <span class="kw-2">&amp;</span>[<span class="ident">u64</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">key</span>: <span class="kw-2">&amp;</span>[<span class="ident">u64</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">Self</span>::<span class="ident">recover</span>(<span class="ident">key</span>.<span class="ident">iter</span>().<span class="ident">copied</span>())
     }
 }
@@ -916,7 +916,7 @@
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="attribute">#[<span class="ident">must_use</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">seed</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">seed</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mt</span> <span class="op">=</span> <span class="self">Self</span> {
             <span class="ident">idx</span>: <span class="number">0</span>,
             <span class="ident">state</span>: [<span class="ident">Wrapping</span>(<span class="number">0</span>); <span class="ident">NN</span>],
@@ -930,7 +930,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Key can have any length.</span>
     <span class="attribute">#[<span class="ident">must_use</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_key</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>(<span class="ident">key</span>: <span class="ident">I</span>) <span class="op">-&gt;</span> <span class="self">Self</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_key</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>(<span class="ident">key</span>: <span class="ident">I</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
     <span class="kw">where</span>
         <span class="ident">I</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">u64</span><span class="op">&gt;</span>,
         <span class="ident">I</span>::<span class="ident">IntoIter</span>: <span class="ident">Clone</span>,
@@ -959,21 +959,21 @@
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="attribute">#[<span class="ident">must_use</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_unseeded</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_unseeded</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">new</span>(<span class="self">Self</span>::<span class="ident">DEFAULT_SEED</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">fill_next_state</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">NN</span> <span class="op">-</span> <span class="ident">MM</span> {
             <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span>] <span class="op">&amp;</span> <span class="ident">UM</span>) <span class="op">|</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>] <span class="op">&amp;</span> <span class="ident">LM</span>);
-            <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">+</span> <span class="ident">MM</span>] <span class="op">^</span> (<span class="ident">x</span> <span class="op">&gt;&gt;</span> <span class="number">1</span>) <span class="op">^</span> ((<span class="ident">x</span> <span class="op">&amp;</span> <span class="ident">ONE</span>) <span class="op">*</span> <span class="ident">MATRIX_A</span>);
+            <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">+</span> <span class="ident">MM</span>] <span class="op">^</span> (<span class="ident">x</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">1</span>) <span class="op">^</span> ((<span class="ident">x</span> <span class="op">&amp;</span> <span class="ident">ONE</span>) <span class="op">*</span> <span class="ident">MATRIX_A</span>);
         }
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="ident">NN</span> <span class="op">-</span> <span class="ident">MM</span>..<span class="ident">NN</span> <span class="op">-</span> <span class="number">1</span> {
             <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span>] <span class="op">&amp;</span> <span class="ident">UM</span>) <span class="op">|</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>] <span class="op">&amp;</span> <span class="ident">LM</span>);
-            <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">+</span> <span class="ident">MM</span> <span class="op">-</span> <span class="ident">NN</span>] <span class="op">^</span> (<span class="ident">x</span> <span class="op">&gt;&gt;</span> <span class="number">1</span>) <span class="op">^</span> ((<span class="ident">x</span> <span class="op">&amp;</span> <span class="ident">ONE</span>) <span class="op">*</span> <span class="ident">MATRIX_A</span>);
+            <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">+</span> <span class="ident">MM</span> <span class="op">-</span> <span class="ident">NN</span>] <span class="op">^</span> (<span class="ident">x</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">1</span>) <span class="op">^</span> ((<span class="ident">x</span> <span class="op">&amp;</span> <span class="ident">ONE</span>) <span class="op">*</span> <span class="ident">MATRIX_A</span>);
         }
         <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">NN</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">&amp;</span> <span class="ident">UM</span>) <span class="op">|</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="number">0</span>] <span class="op">&amp;</span> <span class="ident">LM</span>);
-        <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">NN</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">MM</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">^</span> (<span class="ident">x</span> <span class="op">&gt;&gt;</span> <span class="number">1</span>) <span class="op">^</span> ((<span class="ident">x</span> <span class="op">&amp;</span> <span class="ident">ONE</span>) <span class="op">*</span> <span class="ident">MATRIX_A</span>);
+        <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">NN</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">MM</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">^</span> (<span class="ident">x</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">1</span>) <span class="op">^</span> ((<span class="ident">x</span> <span class="op">&amp;</span> <span class="ident">ONE</span>) <span class="op">*</span> <span class="ident">MATRIX_A</span>);
         <span class="self">self</span>.<span class="ident">idx</span> <span class="op">=</span> <span class="number">0</span>;
     }
 
@@ -995,7 +995,7 @@
     <span class="doccomment">/// If `key` has more than 312 elements, an error is returned because the</span>
     <span class="doccomment">/// recovered RNG will not produce identical output to the RNG that supplied</span>
     <span class="doccomment">/// the samples.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">recover</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>(<span class="ident">key</span>: <span class="ident">I</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">RecoverRngError</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">recover</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>(<span class="ident">key</span>: <span class="ident">I</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">RecoverRngError</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">I</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">u64</span><span class="op">&gt;</span>,
     {
@@ -1038,7 +1038,7 @@
         <span class="self">self</span>.<span class="ident">state</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">Wrapping</span>(<span class="ident">seed</span>);
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">1</span>..<span class="ident">NN</span> {
             <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="ident">Wrapping</span>(<span class="number">6_364_136_223_846_793_005</span>)
-                <span class="op">*</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">^</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">&gt;&gt;</span> <span class="number">62</span>))
+                <span class="op">*</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">^</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">62</span>))
                 <span class="op">+</span> <span class="ident">Wrapping</span>(<span class="ident">i</span> <span class="kw">as</span> <span class="ident">u64</span>);
         }
     }
@@ -1056,56 +1056,56 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">1_usize</span>;
         <span class="kw">for</span> (<span class="ident">j</span>, <span class="ident">piece</span>) <span class="kw">in</span> <span class="ident">key</span>.<span class="ident">into_iter</span>().<span class="ident">enumerate</span>().<span class="ident">cycle</span>().<span class="ident">take</span>(<span class="ident">NN</span>) {
             <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span>] <span class="op">=</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span>]
-                <span class="op">^</span> ((<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">^</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">&gt;&gt;</span> <span class="number">62</span>))
+                <span class="op">^</span> ((<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">^</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">62</span>))
                     <span class="op">*</span> <span class="ident">Wrapping</span>(<span class="number">3_935_559_000_370_003_845</span>)))
                 <span class="op">+</span> <span class="ident">Wrapping</span>(<span class="ident">piece</span>)
                 <span class="op">+</span> <span class="ident">Wrapping</span>(<span class="ident">j</span> <span class="kw">as</span> <span class="ident">u64</span>);
-            <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;
-            <span class="kw">if</span> <span class="ident">i</span> <span class="op">&gt;=</span> <span class="ident">NN</span> {
+            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            <span class="kw">if</span> <span class="ident">i</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">NN</span> {
                 <span class="self">self</span>.<span class="ident">state</span>[<span class="number">0</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">NN</span> <span class="op">-</span> <span class="number">1</span>];
                 <span class="ident">i</span> <span class="op">=</span> <span class="number">1</span>;
             }
         }
         <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">NN</span> <span class="op">-</span> <span class="number">1</span> {
             <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span>] <span class="op">=</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span>]
-                <span class="op">^</span> ((<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">^</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">&gt;&gt;</span> <span class="number">62</span>))
+                <span class="op">^</span> ((<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">^</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">62</span>))
                     <span class="op">*</span> <span class="ident">Wrapping</span>(<span class="number">2_862_933_555_777_941_757</span>)))
                 <span class="op">-</span> <span class="ident">Wrapping</span>(<span class="ident">i</span> <span class="kw">as</span> <span class="ident">u64</span>);
-            <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;
-            <span class="kw">if</span> <span class="ident">i</span> <span class="op">&gt;=</span> <span class="ident">NN</span> {
+            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            <span class="kw">if</span> <span class="ident">i</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">NN</span> {
                 <span class="self">self</span>.<span class="ident">state</span>[<span class="number">0</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">NN</span> <span class="op">-</span> <span class="number">1</span>];
                 <span class="ident">i</span> <span class="op">=</span> <span class="number">1</span>;
             }
         }
-        <span class="self">self</span>.<span class="ident">state</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">Wrapping</span>(<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">63</span>);
+        <span class="self">self</span>.<span class="ident">state</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">Wrapping</span>(<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">63</span>);
     }
 }
 
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">temper</span>(<span class="kw-2">mut</span> <span class="ident">x</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> {
-    <span class="ident">x</span> <span class="op">^=</span> (<span class="ident">x</span> <span class="op">&gt;&gt;</span> <span class="number">29</span>) <span class="op">&amp;</span> <span class="number">0x5555_5555_5555_5555</span>;
-    <span class="ident">x</span> <span class="op">^=</span> (<span class="ident">x</span> <span class="op">&lt;&lt;</span> <span class="number">17</span>) <span class="op">&amp;</span> <span class="number">0x71d6_7fff_eda6_0000</span>;
-    <span class="ident">x</span> <span class="op">^=</span> (<span class="ident">x</span> <span class="op">&lt;&lt;</span> <span class="number">37</span>) <span class="op">&amp;</span> <span class="number">0xfff7_eee0_0000_0000</span>;
-    <span class="ident">x</span> <span class="op">^=</span> <span class="ident">x</span> <span class="op">&gt;&gt;</span> <span class="number">43</span>;
+<span class="kw">fn</span> <span class="ident">temper</span>(<span class="kw-2">mut</span> <span class="ident">x</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
+    <span class="ident">x</span> <span class="op">^</span><span class="op">=</span> (<span class="ident">x</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">29</span>) <span class="op">&amp;</span> <span class="number">0x5555_5555_5555_5555</span>;
+    <span class="ident">x</span> <span class="op">^</span><span class="op">=</span> (<span class="ident">x</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">17</span>) <span class="op">&amp;</span> <span class="number">0x71d6_7fff_eda6_0000</span>;
+    <span class="ident">x</span> <span class="op">^</span><span class="op">=</span> (<span class="ident">x</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">37</span>) <span class="op">&amp;</span> <span class="number">0xfff7_eee0_0000_0000</span>;
+    <span class="ident">x</span> <span class="op">^</span><span class="op">=</span> <span class="ident">x</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">43</span>;
     <span class="ident">x</span>
 }
 
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">untemper</span>(<span class="kw-2">mut</span> <span class="ident">x</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> {
+<span class="kw">fn</span> <span class="ident">untemper</span>(<span class="kw-2">mut</span> <span class="ident">x</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
     <span class="comment">// reverse &quot;x ^=  x &gt;&gt; 43;&quot;</span>
-    <span class="ident">x</span> <span class="op">^=</span> <span class="ident">x</span> <span class="op">&gt;&gt;</span> <span class="number">43</span>;
+    <span class="ident">x</span> <span class="op">^</span><span class="op">=</span> <span class="ident">x</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">43</span>;
 
     <span class="comment">// reverse &quot;x ^= (x &lt;&lt; 37) &amp; 0xfff7_eee0_0000_0000;&quot;</span>
-    <span class="ident">x</span> <span class="op">^=</span> (<span class="ident">x</span> <span class="op">&lt;&lt;</span> <span class="number">37</span>) <span class="op">&amp;</span> <span class="number">0xfff7_eee0_0000_0000</span>;
+    <span class="ident">x</span> <span class="op">^</span><span class="op">=</span> (<span class="ident">x</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">37</span>) <span class="op">&amp;</span> <span class="number">0xfff7_eee0_0000_0000</span>;
 
     <span class="comment">// reverse &quot;x ^= (x &lt;&lt; 17) &amp; 0x71d6_7fff_eda6_0000;&quot;</span>
-    <span class="ident">x</span> <span class="op">^=</span> (<span class="ident">x</span> <span class="op">&lt;&lt;</span> <span class="number">17</span>) <span class="op">&amp;</span> <span class="number">0x0000_0003_eda6_0000</span>;
-    <span class="ident">x</span> <span class="op">^=</span> (<span class="ident">x</span> <span class="op">&lt;&lt;</span> <span class="number">17</span>) <span class="op">&amp;</span> <span class="number">0x0006_7ffc_0000_0000</span>;
-    <span class="ident">x</span> <span class="op">^=</span> (<span class="ident">x</span> <span class="op">&lt;&lt;</span> <span class="number">17</span>) <span class="op">&amp;</span> <span class="number">0x71d0_0000_0000_0000</span>;
+    <span class="ident">x</span> <span class="op">^</span><span class="op">=</span> (<span class="ident">x</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">17</span>) <span class="op">&amp;</span> <span class="number">0x0000_0003_eda6_0000</span>;
+    <span class="ident">x</span> <span class="op">^</span><span class="op">=</span> (<span class="ident">x</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">17</span>) <span class="op">&amp;</span> <span class="number">0x0006_7ffc_0000_0000</span>;
+    <span class="ident">x</span> <span class="op">^</span><span class="op">=</span> (<span class="ident">x</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">17</span>) <span class="op">&amp;</span> <span class="number">0x71d0_0000_0000_0000</span>;
 
     <span class="comment">// reverse &quot;x ^= (x &gt;&gt; 29) &amp; 0x5555_5555_5555_5555;&quot;</span>
-    <span class="ident">x</span> <span class="op">^=</span> (<span class="ident">x</span> <span class="op">&gt;&gt;</span> <span class="number">29</span>) <span class="op">&amp;</span> <span class="number">0x0000_0005_5555_5540</span>;
-    <span class="ident">x</span> <span class="op">^=</span> (<span class="ident">x</span> <span class="op">&gt;&gt;</span> <span class="number">29</span>) <span class="op">&amp;</span> <span class="number">0x0000_0000_0000_0015</span>;
+    <span class="ident">x</span> <span class="op">^</span><span class="op">=</span> (<span class="ident">x</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">29</span>) <span class="op">&amp;</span> <span class="number">0x0000_0005_5555_5540</span>;
+    <span class="ident">x</span> <span class="op">^</span><span class="op">=</span> (<span class="ident">x</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">29</span>) <span class="op">&amp;</span> <span class="number">0x0000_0000_0000_0015</span>;
 
     <span class="ident">x</span>
 }
@@ -1125,7 +1125,7 @@
     <span class="kw">fn</span> <span class="ident">seeded_state_from_u64_seed</span>() {
         <span class="kw">let</span> <span class="ident">mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64</span>::<span class="ident">new</span>(<span class="number">0x0123_4567_89ab_cdef_u64</span>);
         <span class="kw">let</span> <span class="ident">mt_from_seed</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64</span>::<span class="ident">from_seed</span>(<span class="number">0x0123_4567_89ab_cdef_u64</span>.<span class="ident">to_le_bytes</span>());
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">mt</span>.<span class="ident">state</span>[..] <span class="op">==</span> <span class="ident">mt_from_seed</span>.<span class="ident">state</span>[..]);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">mt</span>.<span class="ident">state</span>[..] <span class="op">=</span><span class="op">=</span> <span class="ident">mt_from_seed</span>.<span class="ident">state</span>[..]);
         <span class="kw">for</span> (<span class="kw-2">&amp;</span><span class="ident">Wrapping</span>(<span class="ident">x</span>), <span class="kw-2">&amp;</span><span class="ident">y</span>) <span class="kw">in</span> <span class="ident">mt</span>.<span class="ident">state</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">vectors</span>::<span class="ident">STATE_SEEDED_BY_U64</span>.<span class="ident">iter</span>()) {
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">x</span>, <span class="ident">y</span>);
         }
@@ -1161,17 +1161,17 @@
     }
 
     <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
-    <span class="kw">fn</span> <span class="ident">temper_untemper_is_identity</span>(<span class="ident">x</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-        <span class="ident">x</span> <span class="op">==</span> <span class="kw">super</span>::<span class="ident">untemper</span>(<span class="kw">super</span>::<span class="ident">temper</span>(<span class="ident">x</span>))
+    <span class="kw">fn</span> <span class="ident">temper_untemper_is_identity</span>(<span class="ident">x</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+        <span class="ident">x</span> <span class="op">=</span><span class="op">=</span> <span class="kw">super</span>::<span class="ident">untemper</span>(<span class="kw">super</span>::<span class="ident">temper</span>(<span class="ident">x</span>))
     }
 
     <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
-    <span class="kw">fn</span> <span class="ident">untemper_temper_is_identity</span>(<span class="ident">x</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-        <span class="ident">x</span> <span class="op">==</span> <span class="kw">super</span>::<span class="ident">temper</span>(<span class="kw">super</span>::<span class="ident">untemper</span>(<span class="ident">x</span>))
+    <span class="kw">fn</span> <span class="ident">untemper_temper_is_identity</span>(<span class="ident">x</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+        <span class="ident">x</span> <span class="op">=</span><span class="op">=</span> <span class="kw">super</span>::<span class="ident">temper</span>(<span class="kw">super</span>::<span class="ident">untemper</span>(<span class="ident">x</span>))
     }
 
     <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
-    <span class="kw">fn</span> <span class="ident">recovery</span>(<span class="ident">seed</span>: <span class="ident">u64</span>, <span class="ident">skip</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">recovery</span>(<span class="ident">seed</span>: <span class="ident">u64</span>, <span class="ident">skip</span>: <span class="ident">u8</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">orig_mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64</span>::<span class="ident">new</span>(<span class="ident">seed</span>);
         <span class="comment">// skip some samples so the RNG is in an intermediate state</span>
         <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">skip</span> {
@@ -1183,7 +1183,7 @@
         }
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">recovered_mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64</span>::<span class="ident">from</span>(<span class="ident">samples</span>);
         <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">312</span> <span class="op">*</span> <span class="number">2</span> {
-            <span class="kw">if</span> <span class="ident">orig_mt</span>.<span class="ident">next_u64</span>() <span class="op">!=</span> <span class="ident">recovered_mt</span>.<span class="ident">next_u64</span>() {
+            <span class="kw">if</span> <span class="ident">orig_mt</span>.<span class="ident">next_u64</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">recovered_mt</span>.<span class="ident">next_u64</span>() {
                 <span class="kw">return</span> <span class="bool-val">false</span>;
             }
         }

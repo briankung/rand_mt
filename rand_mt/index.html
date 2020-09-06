@@ -4,16 +4,16 @@
 generators. Mersenne Twister is not suitable for cryptographic use.</p>
 <p>This crate provides:</p>
 <ul>
-<li><a href="../rand_mt/struct.Mt19937GenRand32.html" title="`Mt19937GenRand32`"><code>Mt19937GenRand32</code></a>, the original reference Mersenne Twister
+<li><a href="../rand_mt/struct.Mt19937GenRand32.html" title="Mt19937GenRand32"><code>Mt19937GenRand32</code></a>, the original reference Mersenne Twister
 implementation known as <code>MT19937</code>. This is a good choice on both 32-bit
 and 64-bit CPUs (for 32-bit output).</li>
-<li><a href="../rand_mt/struct.Mt19937GenRand64.html" title="`Mt19937GenRand64`"><code>Mt19937GenRand64</code></a>, the 64-bit variant of <code>MT19937</code> known as
+<li><a href="../rand_mt/struct.Mt19937GenRand64.html" title="Mt19937GenRand64"><code>Mt19937GenRand64</code></a>, the 64-bit variant of <code>MT19937</code> known as
 <code>MT19937-64</code>. This algorithm produces a different output stream than
 <code>MT19937</code> and produces 64-bit output. This is a good choice on 64-bit
 CPUs.</li>
 </ul>
-<p>Both of these use 2.5KB of state. <a href="../rand_mt/struct.Mt19937GenRand32.html" title="`Mt19937GenRand32`"><code>Mt19937GenRand32</code></a> uses a 32-bit seed.
-<a href="../rand_mt/struct.Mt19937GenRand64.html" title="`Mt19937GenRand64`"><code>Mt19937GenRand64</code></a> uses a 64-bit seed. Both can be seeded from an iterator
+<p>Both of these use 2.5KB of state. <a href="../rand_mt/struct.Mt19937GenRand32.html" title="Mt19937GenRand32"><code>Mt19937GenRand32</code></a> uses a 32-bit seed.
+<a href="../rand_mt/struct.Mt19937GenRand64.html" title="Mt19937GenRand64"><code>Mt19937GenRand64</code></a> uses a 64-bit seed. Both can be seeded from an iterator
 of seeds.</p>
 <p>Both RNGs implement a <code>recover</code> constructor which can reconstruct the RNG
 state from a sequence of output samples.</p>
@@ -41,6 +41,6 @@ generator.</p>
 </td></tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table><tr class='module-item'><td><a class="enum" href="enum.RecoverRngError.html" title='rand_mt::RecoverRngError enum'>RecoverRngError</a></td><td class='docblock-short'><p>Error returned from fallible Mersenne Twister recovery constructors.</p>
 </td></tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
-<table><tr class='module-item'><td><a class="type" href="type.Mt.html" title='rand_mt::Mt type'>Mt</a></td><td class='docblock-short'><p>A type alias for <a href="../rand_mt/struct.Mt19937GenRand32.html" title="`Mt19937GenRand32`"><code>Mt19937GenRand32</code></a>, 32-bit Mersenne Twister.</p>
-</td></tr><tr class='module-item'><td><a class="type" href="type.Mt64.html" title='rand_mt::Mt64 type'>Mt64</a></td><td class='docblock-short'><p>A type alias for <a href="../rand_mt/struct.Mt19937GenRand64.html" title="`Mt19937GenRand64`"><code>Mt19937GenRand64</code></a>, 64-bit Mersenne Twister.</p>
+<table><tr class='module-item'><td><a class="type" href="type.Mt.html" title='rand_mt::Mt type'>Mt</a></td><td class='docblock-short'><p>A type alias for <a href="../rand_mt/struct.Mt19937GenRand32.html" title="Mt19937GenRand32"><code>Mt19937GenRand32</code></a>, 32-bit Mersenne Twister.</p>
+</td></tr><tr class='module-item'><td><a class="type" href="type.Mt64.html" title='rand_mt::Mt64 type'>Mt64</a></td><td class='docblock-short'><p>A type alias for <a href="../rand_mt/struct.Mt19937GenRand64.html" title="Mt19937GenRand64"><code>Mt19937GenRand64</code></a>, 64-bit Mersenne Twister.</p>
 </td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "rand_mt";</script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>
