@@ -547,33 +547,6 @@
 <span id="544">544</span>
 <span id="545">545</span>
 <span id="546">546</span>
-<span id="547">547</span>
-<span id="548">548</span>
-<span id="549">549</span>
-<span id="550">550</span>
-<span id="551">551</span>
-<span id="552">552</span>
-<span id="553">553</span>
-<span id="554">554</span>
-<span id="555">555</span>
-<span id="556">556</span>
-<span id="557">557</span>
-<span id="558">558</span>
-<span id="559">559</span>
-<span id="560">560</span>
-<span id="561">561</span>
-<span id="562">562</span>
-<span id="563">563</span>
-<span id="564">564</span>
-<span id="565">565</span>
-<span id="566">566</span>
-<span id="567">567</span>
-<span id="568">568</span>
-<span id="569">569</span>
-<span id="570">570</span>
-<span id="571">571</span>
-<span id="572">572</span>
-<span id="573">573</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// src/mt19937_64.rs</span>
 <span class="comment">//</span>
@@ -590,9 +563,10 @@
 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">fmt</span>;
 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">num</span>::<span class="ident">Wrapping</span>;
 
-<span class="kw">use</span> <span class="ident">rand_core</span>::{<span class="ident">RngCore</span>, <span class="ident">SeedableRng</span>};
-
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">RecoverRngError</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rand-traits&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">rand</span>;
 
 <span class="kw">const</span> <span class="ident">NN</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">312</span>;
 <span class="kw">const</span> <span class="ident">MM</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">156</span>;
@@ -627,6 +601,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand64</span> {
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Mt19937GenRand64 {}&quot;</span>)
     }
@@ -642,141 +617,33 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">SeedableRng</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand64</span> {
-    <span class="kw">type</span> <span class="ident">Seed</span> <span class="op">=</span> [<span class="ident">u8</span>; <span class="number">8</span>];
-
-    <span class="doccomment">/// Reseed from a little endian encoded `u64`.</span>
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">8</span>]<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand64</span> {
+    <span class="doccomment">/// Construct a Mersenne Twister RNG from 8 bytes.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Examples</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// # use rand_core::{RngCore, SeedableRng};</span>
     <span class="doccomment">/// # use rand_mt::Mt19937GenRand64;</span>
     <span class="doccomment">/// // Default MT seed</span>
     <span class="doccomment">/// let seed = 5489_u64.to_le_bytes();</span>
-    <span class="doccomment">/// let mut mt = Mt19937GenRand64::from_seed(seed);</span>
+    <span class="doccomment">/// let mut mt = Mt19937GenRand64::from(seed);</span>
     <span class="doccomment">/// assert_ne!(mt.next_u64(), mt.next_u64());</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">from_seed</span>(<span class="ident">seed</span>: <span class="self">Self</span>::<span class="ident">Seed</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">seed</span>: [<span class="ident">u8</span>; <span class="number">8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">new</span>(<span class="ident">u64</span>::<span class="ident">from_le_bytes</span>(<span class="ident">seed</span>))
     }
 }
 
-<span class="kw">impl</span> <span class="ident">RngCore</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand64</span> {
-    <span class="doccomment">/// Generate next `u64` output.</span>
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand64</span> {
+    <span class="doccomment">/// Construct a Mersenne Twister RNG from a `u64` seed.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// `u64` is the native output of the generator. This function advances the</span>
-    <span class="doccomment">/// RNG step counter by one.</span>
+    <span class="doccomment">/// This function is equivalent to [`new`].</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// # use rand_core::RngCore;</span>
-    <span class="doccomment">/// # use rand_mt::Mt19937GenRand64;</span>
-    <span class="doccomment">/// let mut mt = Mt19937GenRand64::new_unseeded();</span>
-    <span class="doccomment">/// assert_ne!(mt.next_u64(), mt.next_u64());</span>
-    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// [`new`]: Self::new</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">next_u64</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
-        <span class="comment">// Failing this check indicates that, somehow, the structure</span>
-        <span class="comment">// was not initialized.</span>
-        <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">idx</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>);
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">idx</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">NN</span> {
-            <span class="self">self</span>.<span class="ident">fill_next_state</span>();
-        }
-        <span class="kw">let</span> <span class="ident">Wrapping</span>(<span class="ident">x</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>[<span class="self">self</span>.<span class="ident">idx</span>];
-        <span class="self">self</span>.<span class="ident">idx</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-        <span class="ident">temper</span>(<span class="ident">x</span>)
-    }
-
-    <span class="doccomment">/// Generate next `u32` output.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This function is implemented by generating one `u64`s from the RNG and</span>
-    <span class="doccomment">/// shifting + masking them into a `u32` output.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// # use rand_core::RngCore;</span>
-    <span class="doccomment">/// # use rand_mt::Mt19937GenRand64;</span>
-    <span class="doccomment">/// let mut mt = Mt19937GenRand64::new_unseeded();</span>
-    <span class="doccomment">/// assert_ne!(mt.next_u32(), mt.next_u32());</span>
-    <span class="doccomment">/// ```</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">cast_possible_truncation</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">next_u32</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
-        <span class="self">self</span>.<span class="ident">next_u64</span>() <span class="kw">as</span> <span class="ident">u32</span>
-    }
-
-    <span class="doccomment">/// Fill a buffer with bytes generated from the RNG.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method generates random `u64`s (the native output unit of the RNG)</span>
-    <span class="doccomment">/// until `dest` is filled.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method may discard some output bits if `dest.len()` is not a</span>
-    <span class="doccomment">/// multiple of 8.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// # use rand_core::RngCore;</span>
-    <span class="doccomment">/// # use rand_mt::Mt19937GenRand64;</span>
-    <span class="doccomment">/// let mut mt = Mt19937GenRand64::new_unseeded();</span>
-    <span class="doccomment">/// let mut buf = [0; 32];</span>
-    <span class="doccomment">/// mt.fill_bytes(&amp;mut buf);</span>
-    <span class="doccomment">/// assert_ne!([0; 32], buf);</span>
-    <span class="doccomment">/// let mut buf = [0; 31];</span>
-    <span class="doccomment">/// mt.fill_bytes(&amp;mut buf);</span>
-    <span class="doccomment">/// assert_ne!([0; 31], buf);</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">fill_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dest</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">left</span> <span class="op">=</span> <span class="ident">dest</span>;
-        <span class="kw">while</span> <span class="ident">left</span>.<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="number">8</span> {
-            <span class="kw">let</span> (<span class="ident">l</span>, <span class="ident">r</span>) <span class="op">=</span> <span class="ident">left</span>.<span class="ident">split_at_mut</span>(<span class="number">8</span>);
-            <span class="ident">left</span> <span class="op">=</span> <span class="ident">r</span>;
-            <span class="kw">let</span> <span class="ident">chunk</span>: [<span class="ident">u8</span>; <span class="number">8</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_u64</span>().<span class="ident">to_le_bytes</span>();
-            <span class="ident">l</span>.<span class="ident">copy_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">chunk</span>);
-        }
-        <span class="kw">let</span> <span class="ident">n</span> <span class="op">=</span> <span class="ident">left</span>.<span class="ident">len</span>();
-        <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;</span> <span class="number">0</span> {
-            <span class="kw">let</span> <span class="ident">chunk</span>: [<span class="ident">u8</span>; <span class="number">8</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_u64</span>().<span class="ident">to_le_bytes</span>();
-            <span class="ident">left</span>.<span class="ident">copy_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">chunk</span>[..<span class="ident">n</span>]);
-        }
-    }
-
-    <span class="doccomment">/// Fill a buffer with bytes generated from the RNG.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method generates random `u64`s (the native output unit of the RNG)</span>
-    <span class="doccomment">/// until `dest` is filled.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method may discard some output bits if `dest.len()` is not a</span>
-    <span class="doccomment">/// multiple of 8.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `try_fill_bytes` is implemented with [`fill_bytes`](RngCore::fill_bytes)</span>
-    <span class="doccomment">/// and is infallible.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// # use rand_core::RngCore;</span>
-    <span class="doccomment">/// # use rand_mt::Mt19937GenRand64;</span>
-    <span class="doccomment">/// # fn example() -&gt; Result&lt;(), rand_core::Error&gt; {</span>
-    <span class="doccomment">/// let mut mt = Mt19937GenRand64::new_unseeded();</span>
-    <span class="doccomment">/// let mut buf = [0; 32];</span>
-    <span class="doccomment">/// mt.try_fill_bytes(&amp;mut buf)?;</span>
-    <span class="doccomment">/// assert_ne!([0; 32], buf);</span>
-    <span class="doccomment">/// let mut buf = [0; 31];</span>
-    <span class="doccomment">/// mt.try_fill_bytes(&amp;mut buf)?;</span>
-    <span class="doccomment">/// assert_ne!([0; 31], buf);</span>
-    <span class="doccomment">/// # Ok(())</span>
-    <span class="doccomment">/// # }</span>
-    <span class="doccomment">/// # example().unwrap()</span>
-    <span class="doccomment">/// ```</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_fill_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dest</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">rand_core</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">fill_bytes</span>(<span class="ident">dest</span>);
-        <span class="prelude-val">Ok</span>(())
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">seed</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">new</span>(<span class="ident">seed</span>)
     }
 }
 
@@ -787,6 +654,7 @@
     <span class="doccomment">/// This conversion takes a history of samples from a RNG and returns a</span>
     <span class="doccomment">/// RNG that will produce identical output to the RNG that supplied the</span>
     <span class="doccomment">/// samples.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">key</span>: [<span class="ident">u64</span>; <span class="ident">NN</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mt</span> <span class="op">=</span> <span class="self">Self</span> {
             <span class="ident">idx</span>: <span class="ident">NN</span>,
@@ -824,6 +692,7 @@
         <span class="self">Self</span>::<span class="ident">recover</span>(<span class="ident">key</span>.<span class="ident">iter</span>().<span class="ident">copied</span>())
     }
 }
+
 <span class="kw">impl</span> <span class="ident">Mt19937GenRand64</span> {
     <span class="doccomment">/// Default seed used by [`Mt19937GenRand64::new_unseeded`].</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DEFAULT_SEED</span>: <span class="ident">u64</span> <span class="op">=</span> <span class="number">5489_u64</span>;
@@ -836,11 +705,10 @@
     <span class="doccomment">/// ## Constructing with a `u64` seed</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// # use rand_core::SeedableRng;</span>
     <span class="doccomment">/// # use rand_mt::Mt19937GenRand64;</span>
     <span class="doccomment">/// let seed = 123_456_789_u64;</span>
     <span class="doccomment">/// let mt1 = Mt19937GenRand64::new(seed);</span>
-    <span class="doccomment">/// let mt2 = Mt19937GenRand64::from_seed(seed.to_le_bytes());</span>
+    <span class="doccomment">/// let mt2 = Mt19937GenRand64::from(seed.to_le_bytes());</span>
     <span class="doccomment">/// assert_eq!(mt1, mt2);</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">///</span>
@@ -867,6 +735,7 @@
     <span class="doccomment">/// key.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Key can have any length.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="attribute">#[<span class="ident">must_use</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_key</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>(<span class="ident">key</span>: <span class="ident">I</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
     <span class="kw">where</span>
@@ -887,7 +756,6 @@
     <span class="doccomment">/// # Examples</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// # use rand_core::SeedableRng;</span>
     <span class="doccomment">/// # use rand_mt::Mt19937GenRand64;</span>
     <span class="doccomment">/// // Default MT seed</span>
     <span class="doccomment">/// let seed = 5489_u64;</span>
@@ -901,18 +769,83 @@
         <span class="self">Self</span>::<span class="ident">new</span>(<span class="self">Self</span>::<span class="ident">DEFAULT_SEED</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">fill_next_state</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">NN</span> <span class="op">-</span> <span class="ident">MM</span> {
-            <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span>] <span class="op">&amp;</span> <span class="ident">UM</span>) <span class="op">|</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>] <span class="op">&amp;</span> <span class="ident">LM</span>);
-            <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">+</span> <span class="ident">MM</span>] <span class="op">^</span> (<span class="ident">x</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">1</span>) <span class="op">^</span> ((<span class="ident">x</span> <span class="op">&amp;</span> <span class="ident">ONE</span>) <span class="op">*</span> <span class="ident">MATRIX_A</span>);
+    <span class="doccomment">/// Generate next `u64` output.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `u64` is the native output of the generator. This function advances the</span>
+    <span class="doccomment">/// RNG step counter by one.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// # use rand_mt::Mt19937GenRand64;</span>
+    <span class="doccomment">/// let mut mt = Mt19937GenRand64::new_unseeded();</span>
+    <span class="doccomment">/// assert_ne!(mt.next_u64(), mt.next_u64());</span>
+    <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">next_u64</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
+        <span class="comment">// Failing this check indicates that, somehow, the structure</span>
+        <span class="comment">// was not initialized.</span>
+        <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">idx</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>);
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">idx</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">NN</span> {
+            <span class="ident">fill_next_state</span>(<span class="self">self</span>);
         }
-        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="ident">NN</span> <span class="op">-</span> <span class="ident">MM</span>..<span class="ident">NN</span> <span class="op">-</span> <span class="number">1</span> {
-            <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span>] <span class="op">&amp;</span> <span class="ident">UM</span>) <span class="op">|</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>] <span class="op">&amp;</span> <span class="ident">LM</span>);
-            <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">+</span> <span class="ident">MM</span> <span class="op">-</span> <span class="ident">NN</span>] <span class="op">^</span> (<span class="ident">x</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">1</span>) <span class="op">^</span> ((<span class="ident">x</span> <span class="op">&amp;</span> <span class="ident">ONE</span>) <span class="op">*</span> <span class="ident">MATRIX_A</span>);
+        <span class="kw">let</span> <span class="ident">Wrapping</span>(<span class="ident">x</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>[<span class="self">self</span>.<span class="ident">idx</span>];
+        <span class="self">self</span>.<span class="ident">idx</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+        <span class="ident">temper</span>(<span class="ident">x</span>)
+    }
+
+    <span class="doccomment">/// Generate next `u32` output.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This function is implemented by generating one `u64`s from the RNG and</span>
+    <span class="doccomment">/// shifting + masking them into a `u32` output.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// # use rand_mt::Mt19937GenRand64;</span>
+    <span class="doccomment">/// let mut mt = Mt19937GenRand64::new_unseeded();</span>
+    <span class="doccomment">/// assert_ne!(mt.next_u32(), mt.next_u32());</span>
+    <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">cast_possible_truncation</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">next_u32</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+        <span class="self">self</span>.<span class="ident">next_u64</span>() <span class="kw">as</span> <span class="ident">u32</span>
+    }
+
+    <span class="doccomment">/// Fill a buffer with bytes generated from the RNG.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This method generates random `u64`s (the native output unit of the RNG)</span>
+    <span class="doccomment">/// until `dest` is filled.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This method may discard some output bits if `dest.len()` is not a</span>
+    <span class="doccomment">/// multiple of 8.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// # use rand_mt::Mt19937GenRand64;</span>
+    <span class="doccomment">/// let mut mt = Mt19937GenRand64::new_unseeded();</span>
+    <span class="doccomment">/// let mut buf = [0; 32];</span>
+    <span class="doccomment">/// mt.fill_bytes(&amp;mut buf);</span>
+    <span class="doccomment">/// assert_ne!([0; 32], buf);</span>
+    <span class="doccomment">/// let mut buf = [0; 31];</span>
+    <span class="doccomment">/// mt.fill_bytes(&amp;mut buf);</span>
+    <span class="doccomment">/// assert_ne!([0; 31], buf);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fill_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dest</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">left</span> <span class="op">=</span> <span class="ident">dest</span>;
+        <span class="kw">while</span> <span class="ident">left</span>.<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="number">8</span> {
+            <span class="kw">let</span> (<span class="ident">l</span>, <span class="ident">r</span>) <span class="op">=</span> <span class="ident">left</span>.<span class="ident">split_at_mut</span>(<span class="number">8</span>);
+            <span class="ident">left</span> <span class="op">=</span> <span class="ident">r</span>;
+            <span class="kw">let</span> <span class="ident">chunk</span>: [<span class="ident">u8</span>; <span class="number">8</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_u64</span>().<span class="ident">to_le_bytes</span>();
+            <span class="ident">l</span>.<span class="ident">copy_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">chunk</span>);
         }
-        <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="ident">NN</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">&amp;</span> <span class="ident">UM</span>) <span class="op">|</span> (<span class="self">self</span>.<span class="ident">state</span>[<span class="number">0</span>] <span class="op">&amp;</span> <span class="ident">LM</span>);
-        <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">NN</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>[<span class="ident">MM</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">^</span> (<span class="ident">x</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">1</span>) <span class="op">^</span> ((<span class="ident">x</span> <span class="op">&amp;</span> <span class="ident">ONE</span>) <span class="op">*</span> <span class="ident">MATRIX_A</span>);
-        <span class="self">self</span>.<span class="ident">idx</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">n</span> <span class="op">=</span> <span class="ident">left</span>.<span class="ident">len</span>();
+        <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;</span> <span class="number">0</span> {
+            <span class="kw">let</span> <span class="ident">chunk</span>: [<span class="ident">u8</span>; <span class="number">8</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_u64</span>().<span class="ident">to_le_bytes</span>();
+            <span class="ident">left</span>.<span class="ident">copy_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">chunk</span>[..<span class="ident">n</span>]);
+        }
     }
 
     <span class="doccomment">/// Attempt to recover the internal state of a Mersenne Twister using the</span>
@@ -933,6 +866,7 @@
     <span class="doccomment">/// If `key` has more than 312 elements, an error is returned because the</span>
     <span class="doccomment">/// recovered RNG will not produce identical output to the RNG that supplied</span>
     <span class="doccomment">/// the samples.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">recover</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>(<span class="ident">key</span>: <span class="ident">I</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">RecoverRngError</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">I</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">u64</span><span class="op">&gt;</span>,
@@ -961,7 +895,6 @@
     <span class="doccomment">/// # Examples</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// # use rand_core::{RngCore, SeedableRng};</span>
     <span class="doccomment">/// # use rand_mt::Mt19937GenRand64;</span>
     <span class="doccomment">/// // Default MT seed</span>
     <span class="doccomment">/// let mut mt = Mt19937GenRand64::new_unseeded();</span>
@@ -971,6 +904,7 @@
     <span class="doccomment">/// mt.reseed(5489_u64);</span>
     <span class="doccomment">/// assert_eq!(first, mt.next_u64());</span>
     <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reseed</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">seed</span>: <span class="ident">u64</span>) {
         <span class="self">self</span>.<span class="ident">idx</span> <span class="op">=</span> <span class="ident">NN</span>;
         <span class="self">self</span>.<span class="ident">state</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">Wrapping</span>(<span class="ident">seed</span>);
@@ -984,6 +918,7 @@
     <span class="doccomment">/// Reseed a Mersenne Twister from am iterator of `u64`s.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Key can have any length.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">cast_possible_truncation</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reseed_with_key</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">key</span>: <span class="ident">I</span>)
     <span class="kw">where</span>
@@ -1048,35 +983,49 @@
     <span class="ident">x</span>
 }
 
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">fn</span> <span class="ident">fill_next_state</span>(<span class="ident">rng</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Mt19937GenRand64</span>) {
+    <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">NN</span> <span class="op">-</span> <span class="ident">MM</span> {
+        <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> (<span class="ident">rng</span>.<span class="ident">state</span>[<span class="ident">i</span>] <span class="op">&amp;</span> <span class="ident">UM</span>) <span class="op">|</span> (<span class="ident">rng</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>] <span class="op">&amp;</span> <span class="ident">LM</span>);
+        <span class="ident">rng</span>.<span class="ident">state</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="ident">rng</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">+</span> <span class="ident">MM</span>] <span class="op">^</span> (<span class="ident">x</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">1</span>) <span class="op">^</span> ((<span class="ident">x</span> <span class="op">&amp;</span> <span class="ident">ONE</span>) <span class="op">*</span> <span class="ident">MATRIX_A</span>);
+    }
+    <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="ident">NN</span> <span class="op">-</span> <span class="ident">MM</span>..<span class="ident">NN</span> <span class="op">-</span> <span class="number">1</span> {
+        <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> (<span class="ident">rng</span>.<span class="ident">state</span>[<span class="ident">i</span>] <span class="op">&amp;</span> <span class="ident">UM</span>) <span class="op">|</span> (<span class="ident">rng</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>] <span class="op">&amp;</span> <span class="ident">LM</span>);
+        <span class="ident">rng</span>.<span class="ident">state</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="ident">rng</span>.<span class="ident">state</span>[<span class="ident">i</span> <span class="op">+</span> <span class="ident">MM</span> <span class="op">-</span> <span class="ident">NN</span>] <span class="op">^</span> (<span class="ident">x</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">1</span>) <span class="op">^</span> ((<span class="ident">x</span> <span class="op">&amp;</span> <span class="ident">ONE</span>) <span class="op">*</span> <span class="ident">MATRIX_A</span>);
+    }
+    <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> (<span class="ident">rng</span>.<span class="ident">state</span>[<span class="ident">NN</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">&amp;</span> <span class="ident">UM</span>) <span class="op">|</span> (<span class="ident">rng</span>.<span class="ident">state</span>[<span class="number">0</span>] <span class="op">&amp;</span> <span class="ident">LM</span>);
+    <span class="ident">rng</span>.<span class="ident">state</span>[<span class="ident">NN</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">=</span> <span class="ident">rng</span>.<span class="ident">state</span>[<span class="ident">MM</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">^</span> (<span class="ident">x</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">1</span>) <span class="op">^</span> ((<span class="ident">x</span> <span class="op">&amp;</span> <span class="ident">ONE</span>) <span class="op">*</span> <span class="ident">MATRIX_A</span>);
+    <span class="ident">rng</span>.<span class="ident">idx</span> <span class="op">=</span> <span class="number">0</span>;
+}
+
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
     <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">num</span>::<span class="ident">Wrapping</span>;
     <span class="kw">use</span> <span class="ident">quickcheck_macros</span>::<span class="ident">quickcheck</span>;
-    <span class="kw">use</span> <span class="ident">rand_core</span>::{<span class="ident">RngCore</span>, <span class="ident">SeedableRng</span>};
 
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Mt19937GenRand64</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">vectors</span>::<span class="ident">mt64</span> <span class="kw">as</span> <span class="ident">vectors</span>;
+    <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Mt19937GenRand64</span>, <span class="ident">NN</span>};
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">vectors</span>::<span class="ident">mt64</span>::{<span class="ident">STATE_SEEDED_BY_SLICE</span>, <span class="ident">STATE_SEEDED_BY_U64</span>, <span class="ident">TEST_OUTPUT</span>};
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">RecoverRngError</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">seeded_state_from_u64_seed</span>() {
         <span class="kw">let</span> <span class="ident">mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64</span>::<span class="ident">new</span>(<span class="number">0x0123_4567_89ab_cdef_u64</span>);
-        <span class="kw">let</span> <span class="ident">mt_from_seed</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64</span>::<span class="ident">from_seed</span>(<span class="number">0x0123_4567_89ab_cdef_u64</span>.<span class="ident">to_le_bytes</span>());
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">mt</span>.<span class="ident">state</span>[..] <span class="op">=</span><span class="op">=</span> <span class="ident">mt_from_seed</span>.<span class="ident">state</span>[..]);
-        <span class="kw">for</span> (<span class="kw-2">&amp;</span><span class="ident">Wrapping</span>(<span class="ident">x</span>), <span class="kw-2">&amp;</span><span class="ident">y</span>) <span class="kw">in</span> <span class="ident">mt</span>.<span class="ident">state</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">vectors</span>::<span class="ident">STATE_SEEDED_BY_U64</span>.<span class="ident">iter</span>()) {
+        <span class="kw">let</span> <span class="ident">mt_from_seed</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64</span>::<span class="ident">from</span>(<span class="number">0x0123_4567_89ab_cdef_u64</span>.<span class="ident">to_le_bytes</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">mt</span>.<span class="ident">state</span>, <span class="ident">mt_from_seed</span>.<span class="ident">state</span>);
+        <span class="kw">for</span> (<span class="kw-2">&amp;</span><span class="ident">Wrapping</span>(<span class="ident">x</span>), <span class="kw-2">&amp;</span><span class="ident">y</span>) <span class="kw">in</span> <span class="ident">mt</span>.<span class="ident">state</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">STATE_SEEDED_BY_U64</span>.<span class="ident">iter</span>()) {
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">x</span>, <span class="ident">y</span>);
+        }
+        <span class="kw">for</span> (<span class="kw-2">&amp;</span><span class="ident">Wrapping</span>(<span class="ident">x</span>), <span class="kw-2">&amp;</span><span class="ident">y</span>) <span class="kw">in</span> <span class="ident">mt_from_seed</span>.<span class="ident">state</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">STATE_SEEDED_BY_U64</span>.<span class="ident">iter</span>()) {
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">x</span>, <span class="ident">y</span>);
         }
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">seeded_state_from_u64_slice_key</span>() {
-        <span class="kw">let</span> <span class="ident">mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64</span>::<span class="ident">new_with_key</span>(
-            [<span class="number">0x12345_u64</span>, <span class="number">0x23456_u64</span>, <span class="number">0x34567_u64</span>, <span class="number">0x45678_u64</span>]
-                .<span class="ident">iter</span>()
-                .<span class="ident">copied</span>(),
-        );
-        <span class="kw">for</span> (<span class="kw-2">&amp;</span><span class="ident">Wrapping</span>(<span class="ident">x</span>), <span class="kw-2">&amp;</span><span class="ident">y</span>) <span class="kw">in</span> <span class="ident">mt</span>.<span class="ident">state</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">vectors</span>::<span class="ident">STATE_SEEDED_BY_SLICE</span>.<span class="ident">iter</span>()) {
+        <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> [<span class="number">0x12345_u64</span>, <span class="number">0x23456_u64</span>, <span class="number">0x34567_u64</span>, <span class="number">0x45678_u64</span>];
+        <span class="kw">let</span> <span class="ident">mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64</span>::<span class="ident">new_with_key</span>(<span class="ident">key</span>.<span class="ident">iter</span>().<span class="ident">copied</span>());
+        <span class="kw">for</span> (<span class="kw-2">&amp;</span><span class="ident">Wrapping</span>(<span class="ident">x</span>), <span class="kw-2">&amp;</span><span class="ident">y</span>) <span class="kw">in</span> <span class="ident">mt</span>.<span class="ident">state</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">STATE_SEEDED_BY_SLICE</span>.<span class="ident">iter</span>()) {
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">x</span>, <span class="ident">y</span>);
         }
     }
@@ -1088,12 +1037,9 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">output_from_u64_slice_key</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64</span>::<span class="ident">new_with_key</span>(
-            [<span class="number">0x12345_u64</span>, <span class="number">0x23456_u64</span>, <span class="number">0x34567_u64</span>, <span class="number">0x45678_u64</span>]
-                .<span class="ident">iter</span>()
-                .<span class="ident">copied</span>(),
-        );
-        <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">x</span> <span class="kw">in</span> <span class="ident">vectors</span>::<span class="ident">TEST_OUTPUT</span>.<span class="ident">iter</span>() {
+        <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> [<span class="number">0x12345_u64</span>, <span class="number">0x23456_u64</span>, <span class="number">0x34567_u64</span>, <span class="number">0x45678_u64</span>];
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64</span>::<span class="ident">new_with_key</span>(<span class="ident">key</span>.<span class="ident">iter</span>().<span class="ident">copied</span>());
+        <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">x</span> <span class="kw">in</span> <span class="ident">TEST_OUTPUT</span>.<span class="ident">iter</span>() {
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">x</span>, <span class="ident">mt</span>.<span class="ident">next_u64</span>());
         }
     }
@@ -1131,20 +1077,20 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">recover_required_exact_sample_length</span>() {
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="prelude-val">Err</span>(<span class="ident">RecoverRngError</span>::<span class="ident">TooFewSamples</span>(<span class="kw">super</span>::<span class="ident">NN</span>)),
-            <span class="ident">Mt19937GenRand64</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">0</span>][..])
+            <span class="ident">Mt19937GenRand64</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">0</span>][..]),
+            <span class="prelude-val">Err</span>(<span class="ident">RecoverRngError</span>::<span class="ident">TooFewSamples</span>(<span class="ident">NN</span>))
         );
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="prelude-val">Err</span>(<span class="ident">RecoverRngError</span>::<span class="ident">TooFewSamples</span>(<span class="kw">super</span>::<span class="ident">NN</span>)),
-            <span class="ident">Mt19937GenRand64</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">1</span>][..])
+            <span class="ident">Mt19937GenRand64</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">1</span>][..]),
+            <span class="prelude-val">Err</span>(<span class="ident">RecoverRngError</span>::<span class="ident">TooFewSamples</span>(<span class="ident">NN</span>))
         );
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="prelude-val">Err</span>(<span class="ident">RecoverRngError</span>::<span class="ident">TooManySamples</span>(<span class="kw">super</span>::<span class="ident">NN</span>)),
-            <span class="ident">Mt19937GenRand64</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">313</span>][..])
+            <span class="ident">Mt19937GenRand64</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">313</span>][..]),
+            <span class="prelude-val">Err</span>(<span class="ident">RecoverRngError</span>::<span class="ident">TooManySamples</span>(<span class="ident">NN</span>))
         );
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="prelude-val">Err</span>(<span class="ident">RecoverRngError</span>::<span class="ident">TooManySamples</span>(<span class="kw">super</span>::<span class="ident">NN</span>)),
-            <span class="ident">Mt19937GenRand64</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">1000</span>][..])
+            <span class="ident">Mt19937GenRand64</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">1000</span>][..]),
+            <span class="prelude-val">Err</span>(<span class="ident">RecoverRngError</span>::<span class="ident">TooManySamples</span>(<span class="ident">NN</span>))
         );
     }
 }
