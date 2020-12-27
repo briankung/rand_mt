@@ -564,6 +564,11 @@
 <span id="561">561</span>
 <span id="562">562</span>
 <span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// src/mt19937_64.rs</span>
 <span class="comment">//</span>
@@ -1118,6 +1123,11 @@
             <span class="ident">Mt19937GenRand64</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">1</span>][..]),
             <span class="prelude-val">Err</span>(<span class="ident">RecoverRngError</span>::<span class="ident">TooFewSamples</span>(<span class="ident">NN</span>))
         );
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">Mt19937GenRand64</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">311</span>][..]),
+            <span class="prelude-val">Err</span>(<span class="ident">RecoverRngError</span>::<span class="ident">TooFewSamples</span>(<span class="ident">NN</span>))
+        );
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">Mt19937GenRand64</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">312</span>][..]).<span class="ident">is_ok</span>());
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">Mt19937GenRand64</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">313</span>][..]),
             <span class="prelude-val">Err</span>(<span class="ident">RecoverRngError</span>::<span class="ident">TooManySamples</span>(<span class="ident">NN</span>))
