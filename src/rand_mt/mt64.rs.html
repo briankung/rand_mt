@@ -547,6 +547,23 @@
 <span id="544">544</span>
 <span id="545">545</span>
 <span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// src/mt19937_64.rs</span>
 <span class="comment">//</span>
@@ -1002,7 +1019,6 @@
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
     <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">num</span>::<span class="ident">Wrapping</span>;
-    <span class="kw">use</span> <span class="ident">quickcheck_macros</span>::<span class="ident">quickcheck</span>;
 
     <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Mt19937GenRand64</span>, <span class="ident">NN</span>};
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">vectors</span>::<span class="ident">mt64</span>::{<span class="ident">STATE_SEEDED_BY_SLICE</span>, <span class="ident">STATE_SEEDED_BY_U64</span>, <span class="ident">TEST_OUTPUT</span>};
@@ -1044,34 +1060,52 @@
         }
     }
 
-    <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
-    <span class="kw">fn</span> <span class="ident">temper_untemper_is_identity</span>(<span class="ident">x</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="ident">x</span> <span class="op">=</span><span class="op">=</span> <span class="kw">super</span>::<span class="ident">untemper</span>(<span class="kw">super</span>::<span class="ident">temper</span>(<span class="ident">x</span>))
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">temper_untemper_is_identity</span>() {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">8</span>];
+        <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">10_000</span> {
+            <span class="ident">getrandom</span>::<span class="ident">getrandom</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>();
+            <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">u64</span>::<span class="ident">from_le_bytes</span>(<span class="ident">buf</span>);
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">x</span>, <span class="kw">super</span>::<span class="ident">untemper</span>(<span class="kw">super</span>::<span class="ident">temper</span>(<span class="ident">x</span>)));
+            <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">u64</span>::<span class="ident">from_be_bytes</span>(<span class="ident">buf</span>);
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">x</span>, <span class="kw">super</span>::<span class="ident">untemper</span>(<span class="kw">super</span>::<span class="ident">temper</span>(<span class="ident">x</span>)));
+        }
     }
 
-    <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
-    <span class="kw">fn</span> <span class="ident">untemper_temper_is_identity</span>(<span class="ident">x</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="ident">x</span> <span class="op">=</span><span class="op">=</span> <span class="kw">super</span>::<span class="ident">temper</span>(<span class="kw">super</span>::<span class="ident">untemper</span>(<span class="ident">x</span>))
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">untemper_temper_is_identity</span>() {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">8</span>];
+        <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">10_000</span> {
+            <span class="ident">getrandom</span>::<span class="ident">getrandom</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>();
+            <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">u64</span>::<span class="ident">from_le_bytes</span>(<span class="ident">buf</span>);
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">x</span>, <span class="kw">super</span>::<span class="ident">temper</span>(<span class="kw">super</span>::<span class="ident">untemper</span>(<span class="ident">x</span>)));
+            <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">u64</span>::<span class="ident">from_be_bytes</span>(<span class="ident">buf</span>);
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">x</span>, <span class="kw">super</span>::<span class="ident">temper</span>(<span class="kw">super</span>::<span class="ident">untemper</span>(<span class="ident">x</span>)));
+        }
     }
 
-    <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
-    <span class="kw">fn</span> <span class="ident">recovery</span>(<span class="ident">seed</span>: <span class="ident">u64</span>, <span class="ident">skip</span>: <span class="ident">u8</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">orig_mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64</span>::<span class="ident">new</span>(<span class="ident">seed</span>);
-        <span class="comment">// skip some samples so the RNG is in an intermediate state</span>
-        <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">skip</span> {
-            <span class="ident">orig_mt</span>.<span class="ident">next_u64</span>();
-        }
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">samples</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">312</span>];
-        <span class="kw">for</span> <span class="ident">sample</span> <span class="kw">in</span> <span class="ident">samples</span>.<span class="ident">iter_mut</span>() {
-            <span class="kw-2">*</span><span class="ident">sample</span> <span class="op">=</span> <span class="ident">orig_mt</span>.<span class="ident">next_u64</span>();
-        }
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">recovered_mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64</span>::<span class="ident">from</span>(<span class="ident">samples</span>);
-        <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">312</span> <span class="op">*</span> <span class="number">2</span> {
-            <span class="kw">if</span> <span class="ident">orig_mt</span>.<span class="ident">next_u64</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">recovered_mt</span>.<span class="ident">next_u64</span>() {
-                <span class="kw">return</span> <span class="bool-val">false</span>;
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">recovery</span>() {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">8</span>];
+        <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">100</span> {
+            <span class="ident">getrandom</span>::<span class="ident">getrandom</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>();
+            <span class="kw">let</span> <span class="ident">seed</span> <span class="op">=</span> <span class="ident">u64</span>::<span class="ident">from_le_bytes</span>(<span class="ident">buf</span>);
+            <span class="kw">for</span> <span class="ident">skip</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">256</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">orig_mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64</span>::<span class="ident">new</span>(<span class="ident">seed</span>);
+                <span class="comment">// skip some samples so the RNG is in an intermediate state</span>
+                <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">skip</span> {
+                    <span class="ident">orig_mt</span>.<span class="ident">next_u64</span>();
+                }
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">samples</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">312</span>];
+                <span class="kw">for</span> <span class="ident">sample</span> <span class="kw">in</span> <span class="ident">samples</span>.<span class="ident">iter_mut</span>() {
+                    <span class="kw-2">*</span><span class="ident">sample</span> <span class="op">=</span> <span class="ident">orig_mt</span>.<span class="ident">next_u64</span>();
+                }
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">recovered_mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64</span>::<span class="ident">from</span>(<span class="ident">samples</span>);
+                <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">312</span> <span class="op">*</span> <span class="number">2</span> {
+                    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">orig_mt</span>.<span class="ident">next_u64</span>(), <span class="ident">recovered_mt</span>.<span class="ident">next_u64</span>());
+                }
             }
         }
-        <span class="bool-val">true</span>
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
