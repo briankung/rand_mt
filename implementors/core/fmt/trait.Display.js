@@ -1,4 +1,4 @@
 (function() {var implementors = {};
-implementors["rand_core"] = [{"text":"impl Display for Error","synthetic":false,"types":[]}];
-implementors["rand_mt"] = [{"text":"impl Display for RecoverRngError","synthetic":false,"types":[]}];
+implementors["rand_core"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html\" title=\"trait core::fmt::Display\">Display</a> for <a class=\"struct\" href=\"rand_core/struct.Error.html\" title=\"struct rand_core::Error\">Error</a>","synthetic":false,"types":["rand_core::error::Error"]}];
+implementors["rand_mt"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html\" title=\"trait core::fmt::Display\">Display</a> for <a class=\"enum\" href=\"rand_mt/enum.RecoverRngError.html\" title=\"enum rand_mt::RecoverRngError\">RecoverRngError</a>","synthetic":false,"types":["rand_mt::RecoverRngError"]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
