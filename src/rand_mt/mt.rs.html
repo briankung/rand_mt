@@ -639,6 +639,7 @@
 <span id="636">636</span>
 <span id="637">637</span>
 <span id="638">638</span>
+<span id="639">639</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// src/mt19937.rs</span>
 <span class="comment">//</span>
@@ -910,6 +911,7 @@
     <span class="doccomment">/// assert_ne!(mt.next_u32(), mt.next_u32());</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">missing_panics_doc</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">next_u32</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
         <span class="comment">// Failing this check indicates that, somehow, the structure</span>
         <span class="comment">// was not initialized.</span>
