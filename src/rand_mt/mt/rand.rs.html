@@ -324,12 +324,12 @@
     <span class="kw">fn</span> <span class="ident">seeded_state_from_u32_seed</span>() {
         <span class="kw">let</span> <span class="ident">rng</span> <span class="op">=</span> <span class="ident">Mt19937GenRand32</span>::<span class="ident">new</span>(<span class="number">0x1234_5678_u32</span>);
         <span class="kw">let</span> <span class="ident">rng_from_seed</span> <span class="op">=</span> <span class="ident">Mt19937GenRand32</span>::<span class="ident">from_seed</span>(<span class="number">0x1234_5678_u32</span>.<span class="ident">to_le_bytes</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rng</span>.<span class="ident">state</span>, <span class="ident">rng_from_seed</span>.<span class="ident">state</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">rng</span>.<span class="ident">state</span>, <span class="ident">rng_from_seed</span>.<span class="ident">state</span>);
         <span class="kw">for</span> (<span class="kw-2">&amp;</span><span class="ident">Wrapping</span>(<span class="ident">x</span>), <span class="kw-2">&amp;</span><span class="ident">y</span>) <span class="kw">in</span> <span class="ident">rng</span>.<span class="ident">state</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">STATE_SEEDED_BY_U32</span>.<span class="ident">iter</span>()) {
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">x</span>, <span class="ident">y</span>);
+            <span class="macro">assert_eq!</span>(<span class="ident">x</span>, <span class="ident">y</span>);
         }
         <span class="kw">for</span> (<span class="kw-2">&amp;</span><span class="ident">Wrapping</span>(<span class="ident">x</span>), <span class="kw-2">&amp;</span><span class="ident">y</span>) <span class="kw">in</span> <span class="ident">rng_from_seed</span>.<span class="ident">state</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">STATE_SEEDED_BY_U32</span>.<span class="ident">iter</span>()) {
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">x</span>, <span class="ident">y</span>);
+            <span class="macro">assert_eq!</span>(<span class="ident">x</span>, <span class="ident">y</span>);
         }
     }
 
@@ -338,7 +338,7 @@
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> [<span class="number">0x123_u32</span>, <span class="number">0x234_u32</span>, <span class="number">0x345_u32</span>, <span class="number">0x456_u32</span>];
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rng</span> <span class="op">=</span> <span class="ident">Mt19937GenRand32</span>::<span class="ident">new_with_key</span>(<span class="ident">key</span>.<span class="ident">iter</span>().<span class="ident">copied</span>());
         <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">x</span> <span class="kw">in</span> <span class="ident">TEST_OUTPUT</span>.<span class="ident">iter</span>() {
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">x</span>, <span class="ident">RngCore</span>::<span class="ident">next_u32</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">rng</span>));
+            <span class="macro">assert_eq!</span>(<span class="ident">x</span>, <span class="ident">RngCore</span>::<span class="ident">next_u32</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">rng</span>));
         }
     }
 }
