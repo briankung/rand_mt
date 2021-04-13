@@ -170,7 +170,7 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">rand_core</span>::{<span class="ident">Error</span>, <span class="ident">RngCore</span>, <span class="ident">SeedableRng</span>};
 
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Mt19937GenRand64</span>;
+<span class="kw">use</span> <span class="kw">super</span><span class="ident">::Mt19937GenRand64</span>;
 
 <span class="kw">impl</span> <span class="ident">SeedableRng</span> <span class="kw">for</span> <span class="ident">Mt19937GenRand64</span> {
     <span class="kw">type</span> <span class="ident">Seed</span> <span class="op">=</span> [<span class="ident">u8</span>; <span class="number">8</span>];
@@ -188,8 +188,8 @@
     <span class="doccomment">/// assert_ne!(mt.next_u64(), mt.next_u64());</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">from_seed</span>(<span class="ident">seed</span>: <span class="self">Self</span>::<span class="ident">Seed</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">from</span>(<span class="ident">seed</span>)
+    <span class="kw">fn</span> <span class="ident">from_seed</span>(<span class="ident">seed</span>: <span class="self">Self</span><span class="ident">::Seed</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span><span class="ident">::from</span>(<span class="ident">seed</span>)
     }
 }
 
@@ -213,7 +213,7 @@
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">next_u64</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
-        <span class="self">Self</span>::<span class="ident">next_u64</span>(<span class="self">self</span>)
+        <span class="self">Self</span><span class="ident">::next_u64</span>(<span class="self">self</span>)
     }
 
     <span class="doccomment">/// Generate next `u32` output.</span>
@@ -235,7 +235,7 @@
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">next_u32</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
-        <span class="self">Self</span>::<span class="ident">next_u32</span>(<span class="self">self</span>)
+        <span class="self">Self</span><span class="ident">::next_u32</span>(<span class="self">self</span>)
     }
 
     <span class="doccomment">/// Fill a buffer with bytes generated from the RNG.</span>
@@ -265,7 +265,7 @@
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">fill_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dest</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) {
-        <span class="self">Self</span>::<span class="ident">fill_bytes</span>(<span class="self">self</span>, <span class="ident">dest</span>)
+        <span class="self">Self</span><span class="ident">::fill_bytes</span>(<span class="self">self</span>, <span class="ident">dest</span>)
     }
 
     <span class="doccomment">/// Fill a buffer with bytes generated from the RNG.</span>
@@ -299,23 +299,23 @@
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">try_fill_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dest</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="self">Self</span>::<span class="ident">fill_bytes</span>(<span class="self">self</span>, <span class="ident">dest</span>);
+        <span class="self">Self</span><span class="ident">::fill_bytes</span>(<span class="self">self</span>, <span class="ident">dest</span>);
         <span class="prelude-val">Ok</span>(())
     }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">num</span>::<span class="ident">Wrapping</span>;
+    <span class="kw">use</span> <span class="ident">core::num::Wrapping</span>;
     <span class="kw">use</span> <span class="ident">rand_core</span>::{<span class="ident">RngCore</span>, <span class="ident">SeedableRng</span>};
 
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Mt19937GenRand64</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">vectors</span>::<span class="ident">mt64</span>::{<span class="ident">STATE_SEEDED_BY_U64</span>, <span class="ident">TEST_OUTPUT</span>};
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Mt19937GenRand64</span>;
+    <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::vectors::mt64</span>::{<span class="ident">STATE_SEEDED_BY_U64</span>, <span class="ident">TEST_OUTPUT</span>};
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">seeded_state_from_u64_seed</span>() {
-        <span class="kw">let</span> <span class="ident">mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64</span>::<span class="ident">new</span>(<span class="number">0x0123_4567_89ab_cdef_u64</span>);
-        <span class="kw">let</span> <span class="ident">mt_from_seed</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64</span>::<span class="ident">from_seed</span>(<span class="number">0x0123_4567_89ab_cdef_u64</span>.<span class="ident">to_le_bytes</span>());
+        <span class="kw">let</span> <span class="ident">mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64::new</span>(<span class="number">0x0123_4567_89ab_cdef_u64</span>);
+        <span class="kw">let</span> <span class="ident">mt_from_seed</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64::from_seed</span>(<span class="number">0x0123_4567_89ab_cdef_u64</span>.<span class="ident">to_le_bytes</span>());
         <span class="macro">assert_eq!</span>(<span class="ident">mt</span>.<span class="ident">state</span>, <span class="ident">mt_from_seed</span>.<span class="ident">state</span>);
         <span class="kw">for</span> (<span class="kw-2">&amp;</span><span class="ident">Wrapping</span>(<span class="ident">x</span>), <span class="kw-2">&amp;</span><span class="ident">y</span>) <span class="kw">in</span> <span class="ident">mt</span>.<span class="ident">state</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">STATE_SEEDED_BY_U64</span>.<span class="ident">iter</span>()) {
             <span class="macro">assert_eq!</span>(<span class="ident">x</span>, <span class="ident">y</span>);
@@ -328,9 +328,9 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">output_from_u64_slice_key</span>() {
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> [<span class="number">0x12345_u64</span>, <span class="number">0x23456_u64</span>, <span class="number">0x34567_u64</span>, <span class="number">0x45678_u64</span>];
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64</span>::<span class="ident">new_with_key</span>(<span class="ident">key</span>.<span class="ident">iter</span>().<span class="ident">copied</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mt</span> <span class="op">=</span> <span class="ident">Mt19937GenRand64::new_with_key</span>(<span class="ident">key</span>.<span class="ident">iter</span>().<span class="ident">copied</span>());
         <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">x</span> <span class="kw">in</span> <span class="ident">TEST_OUTPUT</span>.<span class="ident">iter</span>() {
-            <span class="macro">assert_eq!</span>(<span class="ident">x</span>, <span class="ident">RngCore</span>::<span class="ident">next_u64</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mt</span>));
+            <span class="macro">assert_eq!</span>(<span class="ident">x</span>, <span class="ident">RngCore::next_u64</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mt</span>));
         }
     }
 }

@@ -24,7 +24,7 @@ state from a sequence of output samples.</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="comment">// Create the RNG.</span>
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rng</span> <span class="op">=</span> <span class="ident">Mt64</span>::<span class="ident">new</span>(<span class="number">0x1234_567_89ab_cdef_u64</span>);
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rng</span> <span class="op">=</span> <span class="ident">Mt64::new</span>(<span class="number">0x1234_567_89ab_cdef_u64</span>);
 <span class="comment">// start grabbing randomness from rng...</span>
 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0</span>; <span class="number">512</span>];
 <span class="ident">rng</span>.<span class="ident">fill_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);</pre></div>
@@ -32,8 +32,8 @@ state from a sequence of output samples.</p>
 reference implementations:</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered">
-<span class="kw">let</span> <span class="ident">default</span> <span class="op">=</span> <span class="ident">Mt</span>::<span class="ident">default</span>();
-<span class="kw">let</span> <span class="ident">mt</span> <span class="op">=</span> <span class="ident">Mt</span>::<span class="ident">new_unseeded</span>();
+<span class="kw">let</span> <span class="ident">default</span> <span class="op">=</span> <span class="ident">Mt::default</span>();
+<span class="kw">let</span> <span class="ident">mt</span> <span class="op">=</span> <span class="ident">Mt::new_unseeded</span>();
 <span class="macro">assert_eq!</span>(<span class="ident">default</span>, <span class="ident">mt</span>);</pre></div>
 <h1 id="crate-features" class="section-header"><a href="#crate-features">Crate Features</a></h1>
 <p><code>rand_mt</code> is <code>no_std</code> compatible. <code>rand_mt</code> has several optional features
