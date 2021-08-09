@@ -635,7 +635,7 @@
 <span class="kw">use</span> <span class="ident">core::mem::size_of</span>;
 <span class="kw">use</span> <span class="ident">core::num::Wrapping</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::RecoverRngError</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::RecoverRngError</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rand-traits&quot;</span>)]</span>
 <span class="kw">mod</span> <span class="ident">rand</span>;
@@ -685,7 +685,7 @@
     <span class="doccomment">/// Equivalent to calling [`Mt19937GenRand64::new_unseeded`].</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span><span class="ident">::new_unseeded</span>()
+        <span class="ident"><span class="self">Self</span>::new_unseeded</span>()
     }
 }
 
@@ -703,7 +703,7 @@
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">seed</span>: [<span class="ident">u8</span>; <span class="number">8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span><span class="ident">::new</span>(<span class="ident">u64::from_le_bytes</span>(<span class="ident">seed</span>))
+        <span class="ident"><span class="self">Self</span>::new</span>(<span class="ident">u64::from_le_bytes</span>(<span class="ident">seed</span>))
     }
 }
 
@@ -715,7 +715,7 @@
     <span class="doccomment">/// [`new`]: Self::new</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">seed</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span><span class="ident">::new</span>(<span class="ident">seed</span>)
+        <span class="ident"><span class="self">Self</span>::new</span>(<span class="ident">seed</span>)
     }
 }
 
@@ -760,8 +760,8 @@
     <span class="doccomment">/// recovered RNG will not produce identical output to the RNG that supplied</span>
     <span class="doccomment">/// the samples.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">key</span>: <span class="kw-2">&amp;</span>[<span class="ident">u64</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span><span class="ident">::Error</span><span class="op">&gt;</span> {
-        <span class="self">Self</span><span class="ident">::recover</span>(<span class="ident">key</span>.<span class="ident">iter</span>().<span class="ident">copied</span>())
+    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">key</span>: <span class="kw-2">&amp;</span>[<span class="ident">u64</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span> {
+        <span class="ident"><span class="self">Self</span>::recover</span>(<span class="ident">key</span>.<span class="ident">iter</span>().<span class="ident">copied</span>())
     }
 }
 
@@ -838,7 +838,7 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="attribute">#[<span class="ident">must_use</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_unseeded</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span><span class="ident">::new</span>(<span class="self">Self</span><span class="ident">::DEFAULT_SEED</span>)
+        <span class="ident"><span class="self">Self</span>::new</span>(<span class="ident"><span class="self">Self</span>::DEFAULT_SEED</span>)
     }
 
     <span class="doccomment">/// Generate next `u64` output.</span>
@@ -1078,8 +1078,8 @@
     <span class="kw">use</span> <span class="ident">core::num::Wrapping</span>;
 
     <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Mt19937GenRand64</span>, <span class="ident">NN</span>};
-    <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::vectors::mt64</span>::{<span class="ident">STATE_SEEDED_BY_SLICE</span>, <span class="ident">STATE_SEEDED_BY_U64</span>, <span class="ident">TEST_OUTPUT</span>};
-    <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::RecoverRngError</span>;
+    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::vectors::mt64</span>::{<span class="ident">STATE_SEEDED_BY_SLICE</span>, <span class="ident">STATE_SEEDED_BY_U64</span>, <span class="ident">TEST_OUTPUT</span>};
+    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::RecoverRngError</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">seeded_state_from_u64_seed</span>() {
@@ -1123,9 +1123,9 @@
         <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">10_000</span> {
             <span class="ident">getrandom::getrandom</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>();
             <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">u64::from_le_bytes</span>(<span class="ident">buf</span>);
-            <span class="macro">assert_eq!</span>(<span class="ident">x</span>, <span class="kw">super</span><span class="ident">::untemper</span>(<span class="kw">super</span><span class="ident">::temper</span>(<span class="ident">x</span>)));
+            <span class="macro">assert_eq!</span>(<span class="ident">x</span>, <span class="ident"><span class="kw">super</span>::untemper</span>(<span class="ident"><span class="kw">super</span>::temper</span>(<span class="ident">x</span>)));
             <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">u64::from_be_bytes</span>(<span class="ident">buf</span>);
-            <span class="macro">assert_eq!</span>(<span class="ident">x</span>, <span class="kw">super</span><span class="ident">::untemper</span>(<span class="kw">super</span><span class="ident">::temper</span>(<span class="ident">x</span>)));
+            <span class="macro">assert_eq!</span>(<span class="ident">x</span>, <span class="ident"><span class="kw">super</span>::untemper</span>(<span class="ident"><span class="kw">super</span>::temper</span>(<span class="ident">x</span>)));
         }
     }
 
@@ -1135,9 +1135,9 @@
         <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">10_000</span> {
             <span class="ident">getrandom::getrandom</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>();
             <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">u64::from_le_bytes</span>(<span class="ident">buf</span>);
-            <span class="macro">assert_eq!</span>(<span class="ident">x</span>, <span class="kw">super</span><span class="ident">::temper</span>(<span class="kw">super</span><span class="ident">::untemper</span>(<span class="ident">x</span>)));
+            <span class="macro">assert_eq!</span>(<span class="ident">x</span>, <span class="ident"><span class="kw">super</span>::temper</span>(<span class="ident"><span class="kw">super</span>::untemper</span>(<span class="ident">x</span>)));
             <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">u64::from_be_bytes</span>(<span class="ident">buf</span>);
-            <span class="macro">assert_eq!</span>(<span class="ident">x</span>, <span class="kw">super</span><span class="ident">::temper</span>(<span class="kw">super</span><span class="ident">::untemper</span>(<span class="ident">x</span>)));
+            <span class="macro">assert_eq!</span>(<span class="ident">x</span>, <span class="ident"><span class="kw">super</span>::temper</span>(<span class="ident"><span class="kw">super</span>::untemper</span>(<span class="ident">x</span>)));
         }
     }
 

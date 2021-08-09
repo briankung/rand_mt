@@ -263,8 +263,8 @@
 
 <span class="kw">use</span> <span class="ident">core::fmt</span>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::mt::Mt19937GenRand32</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::mt64::Mt19937GenRand64</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::mt::Mt19937GenRand32</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::mt64::Mt19937GenRand64</span>;
 
 <span class="kw">mod</span> <span class="ident">mt</span>;
 <span class="kw">mod</span> <span class="ident">mt64</span>;
@@ -303,10 +303,10 @@
 <span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">RecoverRngError</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt::Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span><span class="ident">::TooFewSamples</span>(<span class="ident">expected</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::TooFewSamples</span>(<span class="ident">expected</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;Too few samples given to recover: expected {}&quot;</span>, <span class="ident">expected</span>)
             }
-            <span class="self">Self</span><span class="ident">::TooManySamples</span>(<span class="ident">expected</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(
+            <span class="ident"><span class="self">Self</span>::TooManySamples</span>(<span class="ident">expected</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;Too many samples given to recover: expected {}&quot;</span>,
                 <span class="ident">expected</span>
