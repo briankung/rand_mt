@@ -13,7 +13,7 @@ arrays (we recommend <code>[u8; N]</code> for some <code>N</code>).</p>
 which means an array of <code>[u8; 12]</code> or greater to avoid picking RNGs with
 partially overlapping periods.</p>
 <p>For cryptographic RNG’s a seed of 256 bits is recommended, <code>[u8; 32]</code>.</p>
-<h1 id="implementing-seedablerng-for-rngs-with-large-seeds" class="section-header"><a href="#implementing-seedablerng-for-rngs-with-large-seeds">Implementing <code>SeedableRng</code> for RNGs with large seeds</a></h1>
+<h5 id="implementing-seedablerng-for-rngs-with-large-seeds" class="section-header"><a href="#implementing-seedablerng-for-rngs-with-large-seeds">Implementing <code>SeedableRng</code> for RNGs with large seeds</a></h5>
 <p>Note that the required traits <code>core::default::Default</code> and
 <code>core::convert::AsMut&lt;u8&gt;</code> are not implemented for large arrays
 <code>[u8; N]</code> with <code>N</code> &gt; 32. To be able to implement the traits required by
@@ -27,13 +27,13 @@ used:</p>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MyRng</span>(<span class="ident">MyRngSeed</span>);
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">MyRngSeed</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MyRngSeed</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() -&gt; <span class="ident">MyRngSeed</span> {
         <span class="ident">MyRngSeed</span>([<span class="number">0</span>; <span class="ident">N</span>])
     }
 }
 
 <span class="kw">impl</span> <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MyRngSeed</span> {
-    <span class="kw">fn</span> <span class="ident">as_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>] {
+    <span class="kw">fn</span> <span class="ident">as_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>] {
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="number">0</span>
     }
 }
@@ -41,7 +41,7 @@ used:</p>
 <span class="kw">impl</span> <span class="ident">SeedableRng</span> <span class="kw">for</span> <span class="ident">MyRng</span> {
     <span class="kw">type</span> <span class="ident">Seed</span> <span class="op">=</span> <span class="ident">MyRngSeed</span>;
 
-    <span class="kw">fn</span> <span class="ident">from_seed</span>(<span class="ident">seed</span>: <span class="ident">MyRngSeed</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MyRng</span> {
+    <span class="kw">fn</span> <span class="ident">from_seed</span>(<span class="ident">seed</span>: <span class="ident">MyRngSeed</span>) -&gt; <span class="ident">MyRng</span> {
         <span class="ident">MyRng</span>(<span class="ident">seed</span>)
     }
 }</code></pre></div>

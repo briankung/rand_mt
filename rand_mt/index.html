@@ -16,7 +16,7 @@ CPUs.</li>
 of seeds.</p>
 <p>Both RNGs implement a <code>recover</code> constructor which can reconstruct the RNG
 state from a sequence of output samples.</p>
-<h1 id="usage" class="section-header"><a href="#usage">Usage</a></h1>
+<h2 id="usage" class="section-header"><a href="#usage">Usage</a></h2>
 <p>You can seed a RNG and begin sampling it:</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="comment">// Create the RNG.</span>
@@ -30,7 +30,7 @@ reference implementations:</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let</span> <span class="ident">default</span> <span class="op">=</span> <span class="ident">Mt::default</span>();
 <span class="kw">let</span> <span class="ident">mt</span> <span class="op">=</span> <span class="ident">Mt::new_unseeded</span>();
 <span class="macro">assert_eq!</span>(<span class="ident">default</span>, <span class="ident">mt</span>);</code></pre></div>
-<h1 id="crate-features" class="section-header"><a href="#crate-features">Crate Features</a></h1>
+<h2 id="crate-features" class="section-header"><a href="#crate-features">Crate Features</a></h2>
 <p><code>rand_mt</code> is <code>no_std</code> compatible. <code>rand_mt</code> has several optional features
 that are enabled by default:</p>
 <ul>
@@ -44,15 +44,15 @@ crate.</li>
 implemented in this crate practical to embed in other structs, you may wish
 to store the RNG in a <code>Box</code>.</p>
 </div></details><h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2>
-<div class="item-table"><div class="item-left module-item"><a class="struct" href="struct.Mt19937GenRand32.html" title="rand_mt::Mt19937GenRand32 struct">Mt19937GenRand32</a></div><div class="item-right docblock-short"><p>The 32-bit flavor of the Mersenne Twister pseudorandom number
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Mt19937GenRand32.html" title="rand_mt::Mt19937GenRand32 struct">Mt19937GenRand32</a></div><div class="item-right docblock-short"><p>The 32-bit flavor of the Mersenne Twister pseudorandom number
 generator.</p>
-</div><div class="item-left module-item"><a class="struct" href="struct.Mt19937GenRand64.html" title="rand_mt::Mt19937GenRand64 struct">Mt19937GenRand64</a></div><div class="item-right docblock-short"><p>The 64-bit flavor of the Mersenne Twister pseudorandom number
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Mt19937GenRand64.html" title="rand_mt::Mt19937GenRand64 struct">Mt19937GenRand64</a></div><div class="item-right docblock-short"><p>The 64-bit flavor of the Mersenne Twister pseudorandom number
 generator.</p>
-</div></div><h2 id="enums" class="section-header"><a href="#enums">Enums</a></h2>
-<div class="item-table"><div class="item-left module-item"><a class="enum" href="enum.RecoverRngError.html" title="rand_mt::RecoverRngError enum">RecoverRngError</a></div><div class="item-right docblock-short"><p>Error returned from fallible Mersenne Twister recovery constructors.</p>
-</div></div><h2 id="types" class="section-header"><a href="#types">Type Definitions</a></h2>
-<div class="item-table"><div class="item-left module-item"><a class="type" href="type.Mt.html" title="rand_mt::Mt type">Mt</a></div><div class="item-right docblock-short"><p>A type alias for <a href="struct.Mt19937GenRand32.html" title="Mt19937GenRand32"><code>Mt19937GenRand32</code></a>, 32-bit Mersenne Twister.</p>
-</div><div class="item-left module-item"><a class="type" href="type.Mt64.html" title="rand_mt::Mt64 type">Mt64</a></div><div class="item-right docblock-short"><p>A type alias for <a href="struct.Mt19937GenRand64.html" title="Mt19937GenRand64"><code>Mt19937GenRand64</code></a>, 64-bit Mersenne Twister.</p>
-</div></div></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../" data-current-crate="rand_mt" data-search-index-js="../search-index.js" data-search-js="../search.js"></div>
+</div></div></div><h2 id="enums" class="section-header"><a href="#enums">Enums</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.RecoverRngError.html" title="rand_mt::RecoverRngError enum">RecoverRngError</a></div><div class="item-right docblock-short"><p>Error returned from fallible Mersenne Twister recovery constructors.</p>
+</div></div></div><h2 id="types" class="section-header"><a href="#types">Type Definitions</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="type" href="type.Mt.html" title="rand_mt::Mt type">Mt</a></div><div class="item-right docblock-short"><p>A type alias for <a href="struct.Mt19937GenRand32.html" title="Mt19937GenRand32"><code>Mt19937GenRand32</code></a>, 32-bit Mersenne Twister.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="type" href="type.Mt64.html" title="rand_mt::Mt64 type">Mt64</a></div><div class="item-right docblock-short"><p>A type alias for <a href="struct.Mt19937GenRand64.html" title="Mt19937GenRand64"><code>Mt19937GenRand64</code></a>, 64-bit Mersenne Twister.</p>
+</div></div></div></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../" data-current-crate="rand_mt" data-search-index-js="../search-index.js" data-search-js="../search.js"></div>
     <script src="../main.js"></script>
 </body></html>
